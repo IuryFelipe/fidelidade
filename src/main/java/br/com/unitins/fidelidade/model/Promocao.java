@@ -7,33 +7,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import lombok.Data;
 
 @Entity
-@Table(name="TB_CATEGORIA")
+@Table(name="TB_PROMOCAO")
 @Data
-public class Categoria implements Serializable{
-	
-	private static final long serialVersionUID = 5775600215216301704L;
+public class Promocao implements Serializable{/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2834676050173926965L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long idCategoria;
+	private long idPromocao;
 	
-	@Column(name="nome", nullable = false)
+	//@Column(name="nome", nullable = false) tirando obrigatoriedade para teste
 	private String nome;
 	
 	private boolean status;
 	
-	public Categoria(String nome) {
+	@Lob
+	private byte[] imagem;
+
+	public Promocao(String nome, boolean status, byte[] imagem) {
+		super();
 		this.nome = nome;
 		this.status = true;
+		this.imagem = imagem;
 	}
-
-	public Categoria() {
-		this.status = true;
+	public Promocao() {
+		super();
 	}
+	
+	
 	
 }

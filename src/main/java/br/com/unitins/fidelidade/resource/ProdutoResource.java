@@ -32,18 +32,9 @@ public class ProdutoResource {
 		return produtoRepository.findById(id);
 	}
 	
-	
-	//Método original é do tipo "Produto"
-	//Modificado para teste apenas
 	@PostMapping("/produto")
-	public void createProduto(@RequestBody Produto produto) {
-		if(produto.getNome()=="" || produto.getNome()==null) {
-			System.out.println("Produto veio com nome vazio ou nulo");
-			//retornar erro.
-		}else {
-			produtoRepository.save(produto);
-		}
-		//return produtoRepository.save(produto);
+	public Produto createProduto(@RequestBody Produto produto) {
+		return produtoRepository.save(produto);
 	}
 	
 	@DeleteMapping("/produto")

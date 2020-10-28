@@ -2,12 +2,14 @@ package br.com.unitins.fidelidade.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name="TB_CLIENTE")
 @Getter
 @Setter
 public class Cliente extends Usuario {
