@@ -98,8 +98,7 @@ public class Dbinit implements CommandLineRunner {
 		listaCliente.add(cliente3);
 
 		clienteRepository.saveAll(listaCliente);
-		//Comentado, pois está com erro e será corrigido em breve --Iury
-		/*
+		
 		List<HistoricoTroca> listaTroca = new ArrayList<HistoricoTroca>();
 		HistoricoTroca historico1 = new HistoricoTroca(cliente1, produto1);
 		listaTroca.add(historico1);
@@ -109,7 +108,7 @@ public class Dbinit implements CommandLineRunner {
 		listaTroca.add(historico3);
 
 		historicoTrocaRepository.saveAll(listaTroca);
-		*/
+		
 
 	}
 
