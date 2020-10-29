@@ -24,7 +24,7 @@ public class Promocao implements Serializable{/**
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idPromocao;
 	
-	//@Column(name="nome", nullable = false) tirando obrigatoriedade para teste
+	@Column(name="nome", nullable = false)
 	private String nome;
 	
 	private boolean status;
