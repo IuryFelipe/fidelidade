@@ -30,9 +30,9 @@ public class Promocao implements Serializable{/**
 	private boolean status;
 	
 	@Lob
-	private byte[] imagem;
+	private String imagem;
 
-	public Promocao(String nome, boolean status, byte[] imagem) {
+	public Promocao(String nome, String imagem) {
 		super();
 		this.nome = nome;
 		this.status = true;
