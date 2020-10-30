@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,12 +44,34 @@ public class PromocaoResource {
 	public Promocao findByNome(@PathVariable(value = "nome") String nome) {
 		return promocaoRepository.findByNome(nome);
 	}
-	
+	/*
 	@PostMapping("/promocao")
 	public Promocao createPromocao(@RequestParam MultipartFile imagem, @RequestParam String nome) throws IOException {
 		byte[] imgBytes = Base64.getEncoder().encode(imagem.getBytes());//converte imagem para Base64
 		Promocao promocao = new Promocao(nome, new String(imgBytes));
 		return promocaoRepository.save(promocao);
+	}*/
+	
+//	@PostMapping("/promocao")
+//	public Promocao createPromocao(@RequestParam MultipartFile imagem, @RequestParam  String nome){
+//		//byte[] imgBytes = Base64.getEncoder().encode(imagem.getBytes());
+//		Promocao promocao = null;
+//		try {
+//			promocao = new Promocao(nome, true, imagem.getBytes());
+//			return promocaoRepository.save(promocao);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return promocaoRepository.save(promocao);
+//		
+//	}
+	
+	@PostMapping("/promocao")
+	public Promocao createPromocao(@RequestBody Promocao promocao){
+		
+		return promocaoRepository.save(promocao);
+		
 	}
 	
 	@DeleteMapping("/promocao")
@@ -57,7 +80,7 @@ public class PromocaoResource {
 	}
 	
 	@PutMapping("/promocao") 
-	public Promocao updatePromocao(@RequestBody Promocao promocao) {	
+	public Promocao updatePromocao(@RequestBody @Validated Promocao promocao) {	
 		return promocaoRepository.save(promocao);
 	}
 }

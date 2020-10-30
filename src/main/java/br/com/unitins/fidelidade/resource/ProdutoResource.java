@@ -2,7 +2,11 @@ package br.com.unitins.fidelidade.resource;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,11 +35,18 @@ public class ProdutoResource {
 	public Produto findById(@PathVariable(value = "idProduto") long id) {
 		return produtoRepository.findById(id);
 	}
+	/*
+	@PostMapping("/produto")
+	public Produto createProduto(@RequestBody @Valid Produto produto) {
+		return produtoRepository.save(produto);
+	}*/
 	
 	@PostMapping("/produto")
-	public Produto createProduto(@RequestBody Produto produto) {
-		return produtoRepository.save(produto);
-	}
+    public ResponseEntity<Produto> saveContatoParceria(@RequestBody @Valid Produto produto) {
+    	System.out.println(produto);
+        return new ResponseEntity<Produto>(produtoRepository.save(produto), HttpStatus.CREATED);
+    }
+	
 	
 	@DeleteMapping("/produto")
 	public void deleteProduto(@RequestBody Produto produto) {
@@ -43,7 +54,7 @@ public class ProdutoResource {
 	}
 	
 	@PutMapping("/produto") 
-	public Produto updateProduto(@RequestBody Produto produto) {
+	public Produto updateProduto(@RequestBody @Valid Produto produto) {
 		
 		return produtoRepository.save(produto);
 	}
