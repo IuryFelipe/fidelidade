@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Funcionario;
-import br.com.unitins.fidelidade.model.HistoricoTroca;
+import br.com.unitins.fidelidade.model.Movimentacao;
 import br.com.unitins.fidelidade.model.Produto;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.FuncionarioRepository;
-import br.com.unitins.fidelidade.repository.HistoricoTrocaRepository;
+import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
 import br.com.unitins.fidelidade.repository.ProdutoRepository;
 
 @RestController
@@ -28,7 +28,7 @@ public class FuncionarioResource {
 	@Autowired
 	FuncionarioRepository funcionarioRepository;
 	@Autowired
-	HistoricoTrocaRepository historicoTrocaRepository; 
+	MovimentacaoRepository movimentacaoRepository; 
 	@Autowired
 	ClienteResource clienteResource;
 	@Autowired
@@ -75,17 +75,17 @@ public class FuncionarioResource {
 
 	private boolean realizarTroca(Cliente cliente, Produto produto){
 		if(cliente.getPontos() >= produto.getPontosRetirada()){
-			HistoricoTroca troca = new HistoricoTroca(cliente, produto);
+			Movimentacao troca = new Movimentacao(cliente, produto);
 			troca.setProduto(produtoResource.findById(produto.getIdProduto()));
 			clienteResource.updateCliente(troca.getCliente());
-			historicoTrocaRepository.save(troca);
+			movimentacaoRepository.save(troca);
 			return true;
 		}
 		return false;
 	}
 	
 	@PostMapping("/funcionario/troca")
-	public void realizarTroca(@RequestBody HistoricoTroca troca) {
+	public void realizarTroca(@RequestBody Movimentacao troca) {
 		troca.setProduto(produtoResource.findById(troca.getProduto().getIdProduto()));
 		if (pontosSufucientes(troca)) {
 			troca.setCliente(clienteResource.findByCpf(troca.getCliente().getCpf()));
@@ -94,11 +94,11 @@ public class FuncionarioResource {
 			troca.setCliente(retirarPontosTroca(troca));
 			troca.setPontosClientePosterior(troca.getCliente().getPontos());
 			clienteResource.updateCliente(troca.getCliente());
-			historicoTrocaRepository.save(troca);
+			movimentacaoRepository.save(troca);
 		}
 	}
 	
-	public boolean pontosSufucientes(HistoricoTroca troca) {
+	public boolean pontosSufucientes(Movimentacao troca) {
 		
 		if (clienteResource.findById(troca.getCliente().getIdUsuario()).getPontos() >= troca.getProduto().getPontosRetirada()) {
 			return true;
@@ -107,7 +107,7 @@ public class FuncionarioResource {
 		return false;
 	}
 	
-	public Cliente retirarPontosTroca(HistoricoTroca troca) {
+	public Cliente retirarPontosTroca(Movimentacao troca) {
 		troca.getCliente().setPontos(troca.getCliente().getPontos() - troca.getProduto().getPontosRetirada());
 		
 		return troca.getCliente();

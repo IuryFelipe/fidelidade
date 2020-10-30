@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import br.com.unitins.fidelidade.model.Categoria;
 import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Funcionario;
-import br.com.unitins.fidelidade.model.HistoricoTroca;
+import br.com.unitins.fidelidade.model.Movimentacao;
 import br.com.unitins.fidelidade.model.Permissao;
 import br.com.unitins.fidelidade.model.Produto;
 import br.com.unitins.fidelidade.repository.CategoriaRepository;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.FuncionarioRepository;
-import br.com.unitins.fidelidade.repository.HistoricoTrocaRepository;
+import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
 import br.com.unitins.fidelidade.repository.PermissaoRepository;
 import br.com.unitins.fidelidade.repository.ProdutoRepository;
 
@@ -34,7 +34,7 @@ public class Dbinit implements CommandLineRunner {
 	@Autowired
 	ClienteRepository clienteRepository;
 	@Autowired
-	HistoricoTrocaRepository historicoTrocaRepository;
+	MovimentacaoRepository movimentacaoRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -99,15 +99,15 @@ public class Dbinit implements CommandLineRunner {
 
 		clienteRepository.saveAll(listaCliente);
 		
-		List<HistoricoTroca> listaTroca = new ArrayList<HistoricoTroca>();
-		HistoricoTroca historico1 = new HistoricoTroca(cliente1, produto1);
+		List<Movimentacao> listaTroca = new ArrayList<Movimentacao>();
+		Movimentacao historico1 = new Movimentacao(cliente1, produto1);
 		listaTroca.add(historico1);
-		HistoricoTroca historico2 = new HistoricoTroca(cliente2, produto2);
+		Movimentacao historico2 = new Movimentacao(cliente2, produto2);
 		listaTroca.add(historico2);
-		HistoricoTroca historico3 = new HistoricoTroca(cliente3, produto3);
+		Movimentacao historico3 = new Movimentacao(cliente3, produto3);
 		listaTroca.add(historico3);
 
-		historicoTrocaRepository.saveAll(listaTroca);
+		movimentacaoRepository.saveAll(listaTroca);
 		
 
 	}
