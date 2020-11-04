@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Movimentacao;
+import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
 
 @RestController
@@ -21,6 +23,7 @@ public class MovimentacaoResource {
     
 	@Autowired
 	MovimentacaoRepository movimentacaoRepository;
+	ClienteRepository clienteRepository;
 	
 	@GetMapping("/Movimentacoes")
 	public List<Movimentacao> findAll() {
@@ -28,7 +31,8 @@ public class MovimentacaoResource {
     }
     
     @GetMapping("/Movimentacoes/{idCliente}")
-	public Movimentacao findByIdCliente(@PathVariable(value = "idCliente") long id ) {
-		return movimentacaoRepository.findByIdCliente(id);
+	public Movimentacao findByCliente(@PathVariable(value = "idCliente") long id ) {
+		Cliente cliente = clienteRepository.findById(id);
+		return movimentacaoRepository.findByCliente(cliente);
 	}
 }
