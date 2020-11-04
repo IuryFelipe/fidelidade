@@ -35,18 +35,15 @@ public class ProdutoResource {
 	public Produto findById(@PathVariable(value = "idProduto") long id) {
 		return produtoRepository.findById(id);
 	}
-	/*
+
 	@PostMapping("/produto")
-	public Produto createProduto(@RequestBody @Valid Produto produto) {
-		return produtoRepository.save(produto);
-	}*/
-	
-	@PostMapping("/produto")
-    public ResponseEntity<Produto> saveContatoParceria(@RequestBody @Valid Produto produto) {
-    	System.out.println(produto);
-        return new ResponseEntity<Produto>(produtoRepository.save(produto), HttpStatus.CREATED);
+    public ResponseEntity<Produto> saveProduto(@RequestBody @Valid List<Produto> produtos) {
+		System.out.println(produtos);
+		for (Produto produto : produtos) {
+			produtoRepository.save(produto);
+		}
+        return new ResponseEntity<Produto>(HttpStatus.CREATED);
     }
-	
 	
 	@DeleteMapping("/produto")
 	public void deleteProduto(@RequestBody Produto produto) {
