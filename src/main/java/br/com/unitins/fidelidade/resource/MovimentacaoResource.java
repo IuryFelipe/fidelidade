@@ -28,7 +28,12 @@ public class MovimentacaoResource {
 	@GetMapping("/Movimentacoes")
 	public List<Movimentacao> findAll() {
 		return movimentacaoRepository.findAll();
-    }
+	}
+	
+	@PostMapping("/Movimentacoes")
+	public Movimentacao createMovimentacao(@RequestBody Movimentacao movimentacao) {
+		return movimentacaoRepository.save(movimentacao);
+	}
     
     @GetMapping("/Movimentacoes/{idCliente}")
 	public Movimentacao findByCliente(@PathVariable(value = "idCliente") long id ) {

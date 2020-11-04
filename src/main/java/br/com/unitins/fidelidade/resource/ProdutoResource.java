@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.unitins.fidelidade.model.Cliente;
+import br.com.unitins.fidelidade.model.Movimentacao;
 import br.com.unitins.fidelidade.model.Produto;
+import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
 import br.com.unitins.fidelidade.repository.ProdutoRepository;
 
 @RestController
@@ -25,6 +28,7 @@ public class ProdutoResource {
 	
 	@Autowired
 	ProdutoRepository produtoRepository;
+	MovimentacaoRepository movimentacaoRepository;
 	
 	@GetMapping("/produtos")
 	public List<Produto> findAll() {
@@ -37,10 +41,17 @@ public class ProdutoResource {
 	}
 
 	@PostMapping("/produto")
-    public ResponseEntity<Produto> saveProduto(@RequestBody @Valid List<Produto> produtos) {
+    public ResponseEntity<Produto> saveProduto(@RequestBody @Valid List<Produto> produtos, Cliente cliente) {
 		System.out.println(produtos);
 		for (Produto produto : produtos) {
-			produtoRepository.save(produto);
+			try {
+				produtoRepository.save(produto);
+			  } catch (Exception ex) {
+				System.out.println(ex);
+			  } finally {
+				  Movimentacao movimentacao = new Movimentacao(cliente, produto)
+				  movimentacaoRepository.createMovimentacao(movimentacao);
+			  }
 		}
         return new ResponseEntity<Produto>(HttpStatus.CREATED);
     }
