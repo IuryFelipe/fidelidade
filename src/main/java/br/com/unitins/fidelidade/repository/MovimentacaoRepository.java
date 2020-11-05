@@ -9,5 +9,4 @@ public interface MovimentacaoRepository extends JpaRepository<Movimentacao, Long
 
     Movimentacao findById(long id);
 	Movimentacao findByCliente(Cliente cliente);
-	void createMovimentacao(Movimentacao movimentacao);
 }

@@ -50,11 +50,15 @@ public class ProdutoResource {
 				System.out.println(ex);
 			  } finally {
 				  Movimentacao movimentacao = new Movimentacao(cliente, produto);
-				  movimentacaoRepository.createMovimentacao(movimentacao);
+				  createMovimentacao(movimentacao);
 			  }
 		}
         return new ResponseEntity<Produto>(HttpStatus.CREATED);
-    }
+	}
+	
+	public Movimentacao createMovimentacao(Movimentacao movimentacao) {
+		return movimentacaoRepository.save(movimentacao);
+	}
 	
 	@DeleteMapping("/produto")
 	public void deleteProduto(@RequestBody Produto produto) {
