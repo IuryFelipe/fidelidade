@@ -68,7 +68,7 @@ public class FuncionarioResource {
 		Cliente cliente = clienteRepository.findByCpf(cpf);
 		Produto produto = produtoRepository.findById(idProduto);
 		if(realizarTroca(cliente, produto)){
-			Movimentacao movimentacao = new Movimentacao(cliente, produto);
+			Movimentacao movimentacao = new Movimentacao(cliente, produto, "-");
 			createMovimentacao(movimentacao);
 			return "Troca Realizada!!";
 		}
@@ -81,7 +81,7 @@ public class FuncionarioResource {
 
 	private boolean realizarTroca(Cliente cliente, Produto produto){
 		if(cliente.getPontos() >= produto.getPontosRetirada()){
-			Movimentacao troca = new Movimentacao(cliente, produto);
+			Movimentacao troca = new Movimentacao(cliente, produto, "-");
 			troca.setProduto(produtoResource.findById(produto.getIdProduto()));
 			clienteResource.updateCliente(troca.getCliente());
 			movimentacaoRepository.save(troca);

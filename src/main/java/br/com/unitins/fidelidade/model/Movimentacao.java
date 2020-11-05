@@ -50,11 +50,14 @@ public class Movimentacao {
 	public Movimentacao() {
 	}
 
-	public Movimentacao(Cliente cliente, Produto produto) {
+	public Movimentacao(Cliente cliente, Produto produto, String op) {
 		this.cliente = cliente;
 		this.produto = produto;
 		this.pontosClienteAnterior = cliente.getPontos();
-		this.pontosClientePosterior = cliente.getPontos() - produto.getPontosRetirada();
+		if(op == "+")
+			this.pontosClientePosterior = cliente.getPontos() + produto.getPontosRecebidos();
+		else
+			this.pontosClientePosterior = cliente.getPontos() - produto.getPontosRetirada();
 		this.pontosOperacao = produto.getPontosRetirada();
 	}
 	
