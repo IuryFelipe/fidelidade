@@ -37,7 +37,7 @@ public class EmailResource {
                 aux--;
             }
         }
-		return "Operação realizada: " + aux + " email enviados é : " + (clientes..size() - aux) + " não enviados!";
+		return "Operação realizada: " + aux + " email enviados é : " + (clientes.size() - aux) + " não enviados!";
 	}
 
 

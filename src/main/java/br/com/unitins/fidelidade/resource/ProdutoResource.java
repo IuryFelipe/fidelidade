@@ -49,7 +49,7 @@ public class ProdutoResource {
 			  } catch (Exception ex) {
 				System.out.println(ex);
 			  } finally {
-				  Movimentacao movimentacao = new Movimentacao(cliente, produto)
+				  Movimentacao movimentacao = new Movimentacao(cliente, produto);
 				  movimentacaoRepository.createMovimentacao(movimentacao);
 			  }
 		}
