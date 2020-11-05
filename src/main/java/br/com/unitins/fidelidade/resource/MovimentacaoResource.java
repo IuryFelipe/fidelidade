@@ -23,6 +23,7 @@ public class MovimentacaoResource {
     
 	@Autowired
 	MovimentacaoRepository movimentacaoRepository;
+	@Autowired
 	ClienteRepository clienteRepository;
 	
 	@GetMapping("/Movimentacoes")

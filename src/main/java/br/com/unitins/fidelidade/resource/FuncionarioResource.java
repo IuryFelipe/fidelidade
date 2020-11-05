@@ -68,9 +68,15 @@ public class FuncionarioResource {
 		Cliente cliente = clienteRepository.findByCpf(cpf);
 		Produto produto = produtoRepository.findById(idProduto);
 		if(realizarTroca(cliente, produto)){
+			Movimentacao movimentacao = new Movimentacao(cliente, produto);
+			createMovimentacao(movimentacao);
 			return "Troca Realizada!!";
 		}
 		return "Troca não Realizada!!";
+	}
+	
+	public Movimentacao createMovimentacao(Movimentacao movimentacao) {
+		return movimentacaoRepository.save(movimentacao);
 	}
 
 	private boolean realizarTroca(Cliente cliente, Produto produto){
