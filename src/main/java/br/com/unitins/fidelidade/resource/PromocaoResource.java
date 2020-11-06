@@ -1,6 +1,5 @@
 package br.com.unitins.fidelidade.resource;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Base64;
 
 import br.com.unitins.fidelidade.model.Promocao;
 import br.com.unitins.fidelidade.repository.PromocaoRepository;
@@ -60,7 +55,6 @@ public class PromocaoResource {
 //			promocao = new Promocao(nome, true, imagem.getBytes());
 //			return promocaoRepository.save(promocao);
 //		} catch (IOException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		return promocaoRepository.save(promocao);

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Funcionario;
 import br.com.unitins.fidelidade.model.Movimentacao;
-import br.com.unitins.fidelidade.model.Produto;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.FuncionarioRepository;
 import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
@@ -62,32 +61,9 @@ public class FuncionarioResource {
 	public Funcionario updateFuncionario(@RequestBody Funcionario funcionario) {
 		return funcionarioRepository.save(funcionario);
 	}
-
-	@GetMapping("/troca/{cpfCliente}/{idProduto}")
-	public String trocarPontos(@PathVariable(value = "cpfCliente") String cpf, @PathVariable(value = "idProduto") long idProduto ) {
-		Cliente cliente = clienteRepository.findByCpf(cpf);
-		Produto produto = produtoRepository.findById(idProduto);
-		if(realizarTroca(cliente, produto)){
-			Movimentacao movimentacao = new Movimentacao(cliente, produto, "-");
-			createMovimentacao(movimentacao);
-			return "Troca Realizada!!";
-		}
-		return "Troca não Realizada!!";
-	}
 	
 	public Movimentacao createMovimentacao(Movimentacao movimentacao) {
 		return movimentacaoRepository.save(movimentacao);
-	}
-
-	private boolean realizarTroca(Cliente cliente, Produto produto){
-		if(cliente.getPontos() >= produto.getPontosRetirada()){
-			Movimentacao troca = new Movimentacao(cliente, produto, "-");
-			troca.setProduto(produtoResource.findById(produto.getIdProduto()));
-			clienteResource.updateCliente(troca.getCliente());
-			movimentacaoRepository.save(troca);
-			return true;
-		}
-		return false;
 	}
 	
 	@PostMapping("/funcionario/troca")

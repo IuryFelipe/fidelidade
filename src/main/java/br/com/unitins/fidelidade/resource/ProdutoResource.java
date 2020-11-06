@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.unitins.fidelidade.model.Cliente;
-import br.com.unitins.fidelidade.model.Movimentacao;
 import br.com.unitins.fidelidade.model.Produto;
 import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
 import br.com.unitins.fidelidade.repository.ProdutoRepository;
