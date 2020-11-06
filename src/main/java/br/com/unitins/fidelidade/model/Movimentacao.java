@@ -1,8 +1,7 @@
 package br.com.unitins.fidelidade.model;
 
-
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -20,13 +18,17 @@ import javax.persistence.TemporalType;
 import lombok.Data;
 
 @Entity
-@Table(name="TB_HISTORICOTROCA")
+@Table(name="TB_MOVIMENTACAO")
 @Data
-public class Movimentacao {
+public class Movimentacao implements Serializable{
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -1775585936366706834L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long idHistoricoTroca;
+	private long idMovimentacao;
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
