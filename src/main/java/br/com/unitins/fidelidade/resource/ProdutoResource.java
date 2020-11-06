@@ -41,23 +41,12 @@ public class ProdutoResource {
 	}
 
 	@PostMapping("/produto")
-    public ResponseEntity<Produto> saveProduto(@RequestBody @Valid List<Produto> produtos, Cliente cliente) {
+    public ResponseEntity<List<Produto>> createProduto(@RequestBody @Valid List<Produto> produtos, Cliente cliente) {
 		System.out.println(produtos);
 		for (Produto produto : produtos) {
-			try {
-				produtoRepository.save(produto);
-			  } catch (Exception ex) {
-				System.out.println(ex);
-			  } finally {
-				  Movimentacao movimentacao = new Movimentacao(cliente, produto, "+");
-				  createMovimentacao(movimentacao);
-			  }
+			produtoRepository.save(produto);
 		}
-        return new ResponseEntity<Produto>(HttpStatus.CREATED);
-	}
-	
-	public Movimentacao createMovimentacao(Movimentacao movimentacao) {
-		return movimentacaoRepository.save(movimentacao);
+        return new ResponseEntity<List<Produto>>(produtos, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/produto")
