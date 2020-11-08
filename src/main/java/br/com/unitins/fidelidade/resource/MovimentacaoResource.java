@@ -39,7 +39,12 @@ public class MovimentacaoResource {
 	
 	@PostMapping("/Movimentacoes")
 	public boolean createMovimentacao(@RequestBody Movimentacao movimentacao) {
-		return movimentacaoRepository.save(movimentacao);
+		try {
+			movimentacaoRepository.save(movimentacao);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
     
     @GetMapping("/Movimentacoes/{idCliente}")
