@@ -51,8 +51,9 @@ public class FuncionarioResource {
 		return funcionarioRepository.save(funcionario);
 	}
 	
-	@DeleteMapping("/funcionario")
-	public void deleteFuncionario(@RequestBody Funcionario funcionario) {
+	@DeleteMapping("/funcionario/{idFuncionario}")
+	public void deleteFuncionario(@PathVariable(value = "idFuncionario") long id ) {
+		Funcionario funcionario = funcionarioRepository.findById(id);
 		funcionario.setStatus(false);
 		funcionarioRepository.save(funcionario);
 	}

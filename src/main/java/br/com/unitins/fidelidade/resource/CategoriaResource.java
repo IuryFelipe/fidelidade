@@ -37,8 +37,9 @@ public class CategoriaResource {
 		return categoriaRepository.save(categoria);
 	}
 
-	@DeleteMapping("/categoria")
-	public void deleteCategoria(@RequestBody Categoria categoria) {
+	@DeleteMapping("/categoria/{idCategoria}")
+	public void deleteCategoria(@PathVariable(value = "idCategoria") long id) {
+		Categoria categoria = categoriaRepository.findById(id);
 		categoria.setStatus(false);
 		categoriaRepository.save(categoria);
 	}

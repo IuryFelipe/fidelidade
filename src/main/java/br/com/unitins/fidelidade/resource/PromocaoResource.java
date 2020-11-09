@@ -2,6 +2,7 @@ package br.com.unitins.fidelidade.resource;
 
 import java.util.List;
 
+import org.hibernate.internal.util.beans.BeanInfoHelper.ReturningBeanInfoDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -63,13 +64,13 @@ public class PromocaoResource {
 	
 	@PostMapping("/promocao")
 	public Promocao createPromocao(@RequestBody Promocao promocao){
-		
 		return promocaoRepository.save(promocao);
 		
 	}
 	
-	@DeleteMapping("/promocao")
-	public void deletePromocao(@RequestBody Promocao promocao) {
+	@DeleteMapping("/promocao/{idPromocao}")
+	public void deletePromocao(@PathVariable(value = "idPromocao") long id) {
+		Promocao promocao = promocaoRepository.findById(id);
 		promocao.setStatus(false);
 		promocaoRepository.save(promocao);
 	}

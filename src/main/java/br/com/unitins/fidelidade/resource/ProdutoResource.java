@@ -48,8 +48,9 @@ public class ProdutoResource {
         return new ResponseEntity<List<Produto>>(produtos, HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/produto")
-	public void deleteProduto(@RequestBody Produto produto) {
+	@DeleteMapping("/produto/{idProduto}")
+	public void deleteProduto(@PathVariable(value = "idProduto") long id) {
+		Produto produto = produtoRepository.findById(id);
 		produto.setStatus(false);
 		produtoRepository.save(produto);
 	}

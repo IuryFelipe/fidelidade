@@ -44,8 +44,9 @@ public class ClienteResource {
 		return clienteRepository.save(antigoCliente);
 	}
 	
-	@DeleteMapping("/cliente")
-	public void deleteCliente(@RequestBody Cliente cliente) {
+	@DeleteMapping("/cliente/{cpfCliente}")
+	public void deleteCliente(@PathVariable(value = "cpfCliente") String cpf ) {
+		Cliente cliente = clienteRepository.findByCpf(cpf);
 		cliente.setStatus(false);
 		clienteRepository.save(cliente);
 	}
