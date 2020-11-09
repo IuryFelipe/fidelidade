@@ -16,9 +16,9 @@ import br.com.unitins.fidelidade.model.Produto;
 import br.com.unitins.fidelidade.repository.CategoriaRepository;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.FuncionarioRepository;
-import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
 import br.com.unitins.fidelidade.repository.PermissaoRepository;
 import br.com.unitins.fidelidade.repository.ProdutoRepository;
+import br.com.unitins.fidelidade.resource.MovimentacaoResource;
 
 @Service
 public class Dbinit implements CommandLineRunner {
@@ -33,8 +33,6 @@ public class Dbinit implements CommandLineRunner {
 	FuncionarioRepository funcionarioRepository;
 	@Autowired
 	ClienteRepository clienteRepository;
-	@Autowired
-	MovimentacaoRepository movimentacaoRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -98,17 +96,9 @@ public class Dbinit implements CommandLineRunner {
 		listaCliente.add(cliente3);
 
 		clienteRepository.saveAll(listaCliente);
-		
-		List<Movimentacao> listaTroca = new ArrayList<Movimentacao>();
-		Movimentacao historico1 = new Movimentacao(cliente1, produto1, "+");
-		listaTroca.add(historico1);
-		Movimentacao historico2 = new Movimentacao(cliente1, produto2, "+");
-		listaTroca.add(historico2);
-		Movimentacao historico3 = new Movimentacao(cliente1, produto3, "-");
-		listaTroca.add(historico3);
 
-		movimentacaoRepository.saveAll(listaTroca);
-		
+		MovimentacaoResource mov1 = new MovimentacaoResource();
+		mov1.adicionarPontos(cliente1.getCpf(), produto1.getIdProduto());
 
 	}
 

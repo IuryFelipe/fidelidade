@@ -2,6 +2,8 @@ package br.com.unitins.fidelidade.resource;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,20 +38,20 @@ public class ClienteResource {
 	public Cliente createCliente(@RequestBody Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
+
+	@PutMapping("/cliente") 
+	public Cliente updateCliente(@RequestBody @Valid Cliente antigoCliente) {
+		return clienteRepository.save(antigoCliente);
+	}
 	
 	@DeleteMapping("/cliente")
 	public void deleteCliente(@RequestBody Cliente cliente) {
 		clienteRepository.delete(cliente);
-	}
-	
-	@PutMapping("/cliente")
-	public Cliente updateCliente(@RequestBody Cliente cliente) {
-		return clienteRepository.save(cliente);
 	}
 
 	@GetMapping("/cliente/{cpfCliente}")
 	public Cliente findByCpf(@PathVariable(value = "cpfCliente") String cpf ) {
 		return clienteRepository.findByCpf(cpf);
 	}
-
+	
 }

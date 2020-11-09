@@ -55,7 +55,6 @@ public class ProdutoResource {
 	
 	@PutMapping("/produto") 
 	public Produto updateProduto(@RequestBody @Valid Produto produto) {
-		
 		return produtoRepository.save(produto);
 	}
 

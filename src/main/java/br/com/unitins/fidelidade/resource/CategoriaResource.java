@@ -21,30 +21,35 @@ public class CategoriaResource {
 	
 	@Autowired
 	CategoriaRepository categoriaRepository;
-	
+
 	@GetMapping("/categorias")
 	public List<Categoria> findAll() {
 		return categoriaRepository.findAll();
 	}
-	
+
 	@GetMapping("/categoria/{idCategoria}")
-	public Categoria findById(@PathVariable(value = "idCategoria") long id ) {
+	public Categoria findById(@PathVariable(value = "idCategoria") long id) {
 		return categoriaRepository.findById(id);
 	}
-	
+
 	@PostMapping("/categoria")
 	public Categoria createCategoria(@RequestBody Categoria categoria) {
 		return categoriaRepository.save(categoria);
 	}
-	
-	@DeleteMapping("/categoria")
-	public void deleteCategoria(@RequestBody Categoria categoria) {
+
+	@DeleteMapping("/categoria/{idCategoria}")
+	public void deleteCategoria(@PathVariable(value = "idCategoria") long id) {
+		Categoria categoria = new Categoria();
+		categoria = categoriaRepository.findById(id);
 		categoriaRepository.delete(categoria);
 	}
-	
-	@PutMapping("/categoria")
-	public Categoria updateCategoria(@RequestBody Categoria categoria) {
-		return categoriaRepository.save(categoria);
+
+      
+	@PutMapping("/categoria/{idCategoria}")
+	public Categoria updateCategoria(@PathVariable(value = "idCategoria") long id, @RequestBody Categoria categoriaAtualizada) {
+		Categoria categoria = categoriaRepository.findById(id);
+		categoria.setNome(categoriaAtualizada.getNome());
+       return categoriaRepository.save(categoria);
 	}
 
 }

@@ -77,10 +77,9 @@ public class MovimentacaoResource {
 	private Boolean realizarTroca(Cliente cliente, Produto produto, String op){
 		try {
 			Movimentacao movimentacao = new Movimentacao(cliente, produto, op);
-			movimentacao.setProduto(produtoResource.findById(produto.getIdProduto()));
 			cliente.setPontos(movimentacao.getPontosClientePosterior());
-			clienteResource.updateCliente(cliente);
 			movimentacaoRepository.save(movimentacao);
+			clienteResource.updateCliente(cliente);
 			return true;
 		  }
 		  catch(Exception e) {

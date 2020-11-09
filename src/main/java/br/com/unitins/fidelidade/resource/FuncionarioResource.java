@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Funcionario;
 import br.com.unitins.fidelidade.model.Movimentacao;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
@@ -65,34 +64,6 @@ public class FuncionarioResource {
 	public Movimentacao createMovimentacao(Movimentacao movimentacao) {
 		return movimentacaoRepository.save(movimentacao);
 	}
-	
-	@PostMapping("/funcionario/troca")
-	public void realizarTroca(@RequestBody Movimentacao troca) {
-		troca.setProduto(produtoResource.findById(troca.getProduto().getIdProduto()));
-		if (pontosSufucientes(troca)) {
-			troca.setCliente(clienteResource.findByCpf(troca.getCliente().getCpf()));
-			troca.setPontosClienteAnterior(troca.getCliente().getPontos());
-			troca.setPontosOperacao(troca.getProduto().getPontosRetirada());
-			troca.setCliente(retirarPontosTroca(troca));
-			troca.setPontosClientePosterior(troca.getCliente().getPontos());
-			clienteResource.updateCliente(troca.getCliente());
-			movimentacaoRepository.save(troca);
-		}
-	}
-	
-	public boolean pontosSufucientes(Movimentacao troca) {
-		
-		if (clienteResource.findById(troca.getCliente().getIdUsuario()).getPontos() >= troca.getProduto().getPontosRetirada()) {
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public Cliente retirarPontosTroca(Movimentacao troca) {
-		troca.getCliente().setPontos(troca.getCliente().getPontos() - troca.getProduto().getPontosRetirada());
-		
-		return troca.getCliente();
-	}
+
 	
 }
