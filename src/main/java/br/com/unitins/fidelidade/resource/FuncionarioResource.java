@@ -53,7 +53,8 @@ public class FuncionarioResource {
 	
 	@DeleteMapping("/funcionario")
 	public void deleteFuncionario(@RequestBody Funcionario funcionario) {
-		funcionarioRepository.delete(funcionario);
+		funcionario.setStatus(false);
+		funcionarioRepository.save(funcionario);
 	}
 	
 	@PutMapping("/funcionario")

@@ -70,7 +70,8 @@ public class PromocaoResource {
 	
 	@DeleteMapping("/promocao")
 	public void deletePromocao(@RequestBody Promocao promocao) {
-		promocaoRepository.delete(promocao);
+		promocao.setStatus(false);
+		promocaoRepository.save(promocao);
 	}
 	
 	@PutMapping("/promocao") 

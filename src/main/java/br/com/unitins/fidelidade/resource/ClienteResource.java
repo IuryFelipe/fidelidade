@@ -46,7 +46,8 @@ public class ClienteResource {
 	
 	@DeleteMapping("/cliente")
 	public void deleteCliente(@RequestBody Cliente cliente) {
-		clienteRepository.delete(cliente);
+		cliente.setStatus(false);
+		clienteRepository.save(cliente);
 	}
 
 	@GetMapping("/cliente/{cpfCliente}")

@@ -50,7 +50,8 @@ public class ProdutoResource {
 	
 	@DeleteMapping("/produto")
 	public void deleteProduto(@RequestBody Produto produto) {
-		produtoRepository.delete(produto);
+		produto.setStatus(false);
+		produtoRepository.save(produto);
 	}
 	
 	@PutMapping("/produto") 
