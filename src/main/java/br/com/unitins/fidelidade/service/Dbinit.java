@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import br.com.unitins.fidelidade.model.Categoria;
 import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Funcionario;
-import br.com.unitins.fidelidade.model.Movimentacao;
 import br.com.unitins.fidelidade.model.Permissao;
 import br.com.unitins.fidelidade.model.Produto;
 import br.com.unitins.fidelidade.repository.CategoriaRepository;
@@ -96,9 +95,6 @@ public class Dbinit implements CommandLineRunner {
 		listaCliente.add(cliente3);
 
 		clienteRepository.saveAll(listaCliente);
-
-		MovimentacaoResource mov1 = new MovimentacaoResource();
-		mov1.adicionarPontos(cliente1.getCpf(), produto1.getIdProduto());
 
 	}
 
