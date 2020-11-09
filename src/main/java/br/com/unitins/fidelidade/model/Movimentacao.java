@@ -56,11 +56,13 @@ public class Movimentacao implements Serializable{
 		this.cliente = cliente;
 		this.produto = produto;
 		this.pontosClienteAnterior = cliente.getPontos();
-		if(op == "+")
+		if(op == "+"){
 			this.pontosClientePosterior = cliente.getPontos() + produto.getPontosRecebidos();
-		else
+		}
+		else{
 			this.pontosClientePosterior = cliente.getPontos() - produto.getPontosRetirada();
-		this.pontosOperacao = produto.getPontosRetirada();
+		}
+		this.pontosOperacao = this.pontosClientePosterior - this.pontosClienteAnterior;
 	}
 	
 }

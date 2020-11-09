@@ -58,9 +58,7 @@ public class MovimentacaoResource {
 		Cliente cliente = clienteRepository.findByCpf(cpf);
 		Produto produto = produtoRepository.findById(idProduto);
 		if(cliente.getPontos() >= produto.getPontosRetirada()){
-			realizarTroca(cliente, produto);
-			Movimentacao movimentacao = new Movimentacao(cliente, produto, "-");
-			if(createMovimentacao(movimentacao))
+			if(realizarTroca(cliente, produto, "+"))
 				return "Troca Realizada!!";
 		}
 		return "Troca não Realizada!!";
@@ -70,20 +68,19 @@ public class MovimentacaoResource {
 	public String adicionarPontos(@PathVariable(value = "cpfCliente") String cpf, @PathVariable(value = "idProduto") long idProduto ) {
 		Cliente cliente = clienteRepository.findByCpf(cpf);
 		Produto produto = produtoRepository.findById(idProduto);
-		realizarTroca(cliente, produto);
-		Movimentacao movimentacao = new Movimentacao(cliente, produto, "+");
-		if(createMovimentacao(movimentacao))
+		if(realizarTroca(cliente, produto, "+"))
 			return "Troca Realizada!!";
 		else
 			return "Troca não Realizada!!";
 	}
 
-	private Boolean realizarTroca(Cliente cliente, Produto produto){
+	private Boolean realizarTroca(Cliente cliente, Produto produto, String op){
 		try {
-			Movimentacao troca = new Movimentacao(cliente, produto, "-");
-			troca.setProduto(produtoResource.findById(produto.getIdProduto()));
-			clienteResource.updateCliente(troca.getCliente());
-			movimentacaoRepository.save(troca);
+			Movimentacao movimentacao = new Movimentacao(cliente, produto, op);
+			movimentacao.setProduto(produtoResource.findById(produto.getIdProduto()));
+			cliente.setPontos(movimentacao.getPontosClientePosterior());
+			clienteResource.updateCliente(cliente);
+			movimentacaoRepository.save(movimentacao);
 			return true;
 		  }
 		  catch(Exception e) {

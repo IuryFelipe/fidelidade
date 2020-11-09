@@ -100,11 +100,11 @@ public class Dbinit implements CommandLineRunner {
 		clienteRepository.saveAll(listaCliente);
 		
 		List<Movimentacao> listaTroca = new ArrayList<Movimentacao>();
-		Movimentacao historico1 = new Movimentacao(cliente1, produto1, "-");
+		Movimentacao historico1 = new Movimentacao(cliente1, produto1, "+");
 		listaTroca.add(historico1);
-		Movimentacao historico2 = new Movimentacao(cliente2, produto2, "-");
+		Movimentacao historico2 = new Movimentacao(cliente1, produto2, "+");
 		listaTroca.add(historico2);
-		Movimentacao historico3 = new Movimentacao(cliente3, produto3, "-");
+		Movimentacao historico3 = new Movimentacao(cliente1, produto3, "-");
 		listaTroca.add(historico3);
 
 		movimentacaoRepository.saveAll(listaTroca);
