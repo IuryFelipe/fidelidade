@@ -37,7 +37,7 @@ public class MovimentacaoResource {
 		return movimentacaoRepository.findAll();
 	}
 	
-	@PostMapping("/Movimentacoes")
+	@PostMapping("/Movimentacao")
 	public boolean createMovimentacao(@RequestBody Movimentacao movimentacao) {
 		try {
 			movimentacaoRepository.save(movimentacao);
