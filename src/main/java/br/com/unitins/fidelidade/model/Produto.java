@@ -10,11 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.Data;
 
 @Entity
-@Table(name="TB_PRODUTO")
+@Table(name="TB_PRODUTO", uniqueConstraints = {@UniqueConstraint(columnNames={"nome"})})
 @Data
 public class Produto implements Serializable {
 	
@@ -40,10 +41,13 @@ public class Produto implements Serializable {
 	
 	private boolean status;
 	
-	public Produto(String nome, Categoria categoria, Integer pontosRecebidos, Integer pontosRetirada) {
+	private byte[] imagem;
+	
+	public Produto(String nome, Categoria categoria, byte[] imagem, Integer pontosRecebidos, Integer pontosRetirada) {
 		super();
 		this.nome = nome;
 		this.categoria = categoria;
+		this.imagem = imagem;
 		this.pontosRecebidos = pontosRecebidos;
 		this.pontosRetirada = pontosRetirada;
 		this.status = true;

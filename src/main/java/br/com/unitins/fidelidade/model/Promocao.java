@@ -31,7 +31,6 @@ public class Promocao implements Serializable{/**
 	
 	@Lob
 	private byte[] imagem;
-	//private Byte[] img;
 
 	public Promocao(String nome, boolean status, byte[] imagem) {
 		super();

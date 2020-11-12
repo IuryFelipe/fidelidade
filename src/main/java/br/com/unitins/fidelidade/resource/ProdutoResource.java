@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import br.com.unitins.fidelidade.model.Categoria;
 import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Produto;
 import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
@@ -38,7 +41,8 @@ public class ProdutoResource {
 	public Produto findById(@PathVariable(value = "idProduto") long id) {
 		return produtoRepository.findById(id);
 	}
-
+	/*
+	Precisa ser corrigido isso aqui
 	@PostMapping("/produto")
     public ResponseEntity<List<Produto>> createProduto(@RequestBody @Valid List<Produto> produtos, Cliente cliente) {
 		System.out.println(produtos);
@@ -46,6 +50,17 @@ public class ProdutoResource {
 			produtoRepository.save(produto);
 		}
         return new ResponseEntity<List<Produto>>(produtos, HttpStatus.CREATED);
+	}*/ 
+	
+	@PostMapping("/produto")
+    public ResponseEntity<Produto> createProduto(@RequestBody MultipartFile imagem, @RequestParam String nome, @RequestParam Categoria categoria, int pontosRecebidos, int pontosRetirada) {
+		try {
+			Produto produto = new Produto(nome, categoria, imagem.getBytes(), pontosRecebidos, pontosRetirada);
+			produtoRepository.save(produto);
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}	
 	}
 	
 	@DeleteMapping("/produto/{idProduto}")
