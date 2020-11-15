@@ -8,4 +8,10 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long>{
 
 	Funcionario findById(long id);
 	
+	Funcionario findByCpf(String cpf);
+	
+	Funcionario findByEmail(String email);
+	
+	
+	
 }
