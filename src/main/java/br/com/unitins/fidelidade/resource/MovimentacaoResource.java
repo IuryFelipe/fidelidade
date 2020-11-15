@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.unitins.fidelidade.exception.PontosException;
 import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Movimentacao;
 import br.com.unitins.fidelidade.model.Produto;
@@ -32,58 +33,76 @@ public class MovimentacaoResource {
 	@Autowired
 	ProdutoResource produtoResource;
 	
+	@PostMapping("/Movimentacao/AdicionarPontos")
+	public boolean createMovimentacaoAdicionar(@RequestBody Movimentacao movimentacao) {
+		movimentacao.setCliente(clienteRepository.findById(movimentacao.getCliente().getIdUsuario()));
+		movimentacao.setProdutos(produtoResource.findListaProdutos(movimentacao.getProdutos()));
+		try {
+			adicionarPontos(movimentacao);
+			
+			movimentacaoRepository.save(movimentacao);
+			clienteResource.updateCliente(movimentacao.getCliente());
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	@PostMapping("/Movimentacao/RealizarTroca")
+	public boolean createMovimentacaoTrocar(@RequestBody Movimentacao movimentacao) {
+		movimentacao.setCliente(clienteRepository.findById(movimentacao.getCliente().getIdUsuario()));
+		movimentacao.setProdutos(produtoResource.findListaProdutos(movimentacao.getProdutos()));
+		try {
+			trocarPontos(movimentacao);
+			
+			movimentacaoRepository.save(movimentacao);
+			clienteResource.updateCliente(movimentacao.getCliente());
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	@GetMapping("/Movimentacoes")
 	public List<Movimentacao> findAll() {
 		return movimentacaoRepository.findAll();
 	}
 	
-	@PostMapping("/Movimentacao")
-	public boolean createMovimentacao(@RequestBody Movimentacao movimentacao) {
-		try {
-			movimentacaoRepository.save(movimentacao);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-    
-    @GetMapping("/Movimentacoes/{idCliente}")
-	public Movimentacao findByCliente(@PathVariable(value = "idCliente") long id ) {
-		Cliente cliente = clienteRepository.findById(id);
+    @GetMapping("/Movimentacoes/{cpfCliente}")
+	public Movimentacao findByCliente(@PathVariable(value = "cpfCliente") String cpf ) {
+		Cliente cliente = clienteRepository.findByCpf(cpf);
 		return movimentacaoRepository.findByCliente(cliente);
 	}
-
-	@GetMapping("/Movimentacoes/trocarPontos/{cpfCliente}/{idProduto}")
-	public String trocarPontos(@PathVariable(value = "cpfCliente") String cpf, @PathVariable(value = "idProduto") long idProduto ) {
-		Cliente cliente = clienteRepository.findByCpf(cpf);
-		Produto produto = produtoRepository.findById(idProduto);
-		if(cliente.getPontos() >= produto.getPontosRetirada()){
-			if(realizarTroca(cliente, produto, "+"))
-				return "Troca Realizada!!";
+    
+	public void adicionarPontos(Movimentacao movimentacao) throws Exception {
+		Integer pontosProdutos = 0;
+		for (Produto produto : movimentacao.getProdutos()) {
+			pontosProdutos += produto.getPontosRecebidos();
 		}
-		return "Troca não Realizada!!";
+		
+		movimentacao.setPontosClienteAnterior(movimentacao.getCliente().getPontos());
+		movimentacao.setPontosOperacao(pontosProdutos);
+		movimentacao.setPontosClientePosterior(pontosProdutos + movimentacao.getCliente().getPontos());
+		movimentacao.getCliente().setPontos(movimentacao.getPontosClientePosterior());
+	}
+    
+	public void trocarPontos(Movimentacao movimentacao) throws Exception, PontosException {
+		Integer pontosProdutos = 0;
+		for (Produto produto : movimentacao.getProdutos()) {
+			pontosProdutos += produto.getPontosRetirada();
+		}
+		
+		if(pontosProdutos > movimentacao.getCliente().getPontos())
+			throw new PontosException("Pontos insuficientes.");
+		
+		movimentacao.setPontosClienteAnterior(movimentacao.getCliente().getPontos());
+		movimentacao.setPontosOperacao(pontosProdutos);
+		movimentacao.setPontosClientePosterior(movimentacao.getCliente().getPontos() - pontosProdutos);
+		movimentacao.getCliente().setPontos(movimentacao.getPontosClientePosterior());
 	}
 
-	@GetMapping("/Movimentacoes/adicionarPontos/{cpfCliente}/{idProduto}")
-	public String adicionarPontos(@PathVariable(value = "cpfCliente") String cpf, @PathVariable(value = "idProduto") long idProduto ) {
-		Cliente cliente = clienteRepository.findByCpf(cpf);
-		Produto produto = produtoRepository.findById(idProduto);
-		if(realizarTroca(cliente, produto, "+"))
-			return "Troca Realizada!!";
-		else
-			return "Troca não Realizada!!";
-	}
-
-	private Boolean realizarTroca(Cliente cliente, Produto produto, String op){
-		try {
-			Movimentacao movimentacao = new Movimentacao(cliente, produto, op);
-			cliente.setPontos(movimentacao.getPontosClientePosterior());
-			movimentacaoRepository.save(movimentacao);
-			clienteResource.updateCliente(cliente);
-			return true;
-		  }
-		  catch(Exception e) {
-			return false;
-		  }
-	}
 }

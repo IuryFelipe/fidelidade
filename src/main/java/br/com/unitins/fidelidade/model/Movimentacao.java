@@ -2,6 +2,7 @@ package br.com.unitins.fidelidade.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -22,9 +25,6 @@ import lombok.Data;
 @Data
 public class Movimentacao implements Serializable{
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -1775585936366706834L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +32,10 @@ public class Movimentacao implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
-	@ManyToOne
-	@JoinColumn(name = "id_produto")
-	private Produto produto;
+	@ManyToMany
+	@JoinTable(name = "TB_MOVIMENTACAO_PRODUTO", 
+		joinColumns = @JoinColumn(name = "id_movimentacao"), inverseJoinColumns = @JoinColumn(name = "id_produto"))
+	private List<Produto> produtos;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataOperacao;
 	@Column(name = "pontosClienteAnterior", nullable = false)
@@ -49,20 +50,4 @@ public class Movimentacao implements Serializable{
 		dataOperacao = new Date();
 	}
 
-	public Movimentacao() {
-	}
-
-	public Movimentacao(Cliente cliente, Produto produto, String op) {
-		this.cliente = cliente;
-		this.produto = produto;
-		this.pontosClienteAnterior = cliente.getPontos();
-		if(op == "+"){
-			this.pontosClientePosterior = cliente.getPontos() + produto.getPontosRecebidos();
-		}
-		else{
-			this.pontosClientePosterior = cliente.getPontos() - produto.getPontosRetirada();
-		}
-		this.pontosOperacao = this.pontosClientePosterior - this.pontosClienteAnterior;
-	}
-	
 }
