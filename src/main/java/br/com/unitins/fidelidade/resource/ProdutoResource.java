@@ -1,5 +1,6 @@
 package br.com.unitins.fidelidade.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -74,5 +75,34 @@ public class ProdutoResource {
 	public Produto updateProduto(@RequestBody @Valid Produto produto) {
 		return produtoRepository.save(produto);
 	}
+	
+	public List<Produto> findListaProdutos(List<Produto> produtos) {
+		List<Produto> aux = new ArrayList<Produto>();
+		for (Produto produto : produtos) {
+			aux.add(produtoRepository.findById(produto.getIdProduto()));
+		}
+		
+		return aux;
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
