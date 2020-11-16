@@ -1,27 +1,41 @@
 package br.com.unitins.fidelidade.controller;
 
+import javax.activation.DataSource;
+import javax.mail.Message;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.web.multipart.MultipartFile;
 
 public class EmailController {
-    @Autowired private JavaMailSender mailSender;
+    @Autowired
+    private JavaMailSender mailSender;
 
-    //método via url: http://localhost:8080/email-send
-    @RequestMapping(path = "/email-send", method = RequestMethod.GET)
-    public String sendMail(String emailTo, String emailText) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setText(emailText);
-        message.setTo(emailTo);
-        message.setFrom("fidelidade@gmail.com");
+    public String sendMail(String emailTo, String emailText, MultipartFile imagem) {
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+                mimeMessage.setFrom(new InternetAddress("fidelidademail@gmail.com"));
+                mimeMessage.setSubject(emailText);
+
+                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+                helper.setText("<html><body><img src='cid:imageEmail'></body></html>", true);
+                helper.addInline("imageEmail", (DataSource) imagem);
+            }
+        };
 
         try {
-            mailSender.send(message);
+            mailSender.send(preparator);
             return "Email enviado com sucesso!";
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (MailException ex) {
+            // simply log it and go on...
+            System.err.println(ex.getMessage());
             return "Erro ao enviar email.";
         }
     }

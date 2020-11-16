@@ -12,12 +12,13 @@ import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Funcionario;
 import br.com.unitins.fidelidade.model.Permissao;
 import br.com.unitins.fidelidade.model.Produto;
+import br.com.unitins.fidelidade.model.Promocao;
 import br.com.unitins.fidelidade.repository.CategoriaRepository;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.FuncionarioRepository;
 import br.com.unitins.fidelidade.repository.PermissaoRepository;
 import br.com.unitins.fidelidade.repository.ProdutoRepository;
-import br.com.unitins.fidelidade.resource.MovimentacaoResource;
+import br.com.unitins.fidelidade.repository.PromocaoRepository;
 
 @Service
 public class Dbinit implements CommandLineRunner {
@@ -32,6 +33,8 @@ public class Dbinit implements CommandLineRunner {
 	FuncionarioRepository funcionarioRepository;
 	@Autowired
 	ClienteRepository clienteRepository;
+	@Autowired
+	PromocaoRepository promocaoRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -87,14 +90,18 @@ public class Dbinit implements CommandLineRunner {
 
 		List<Cliente> listaCliente = new ArrayList<Cliente>();
 
-		Cliente cliente1 = new Cliente("Tales", "222.111.333-44", "tales@gmail.com", "(63) 98762-2132", 120);
+		Cliente cliente1 = new Cliente("Tales", "222.111.333-44", "taalesmelquiades@gmail.com", "(63) 98762-2132", 120);
 		listaCliente.add(cliente1);
-		Cliente cliente2 = new Cliente("Yuri", "333.212.121-12", "yuri@gmail.com", "(63) 9992-9821", 230);
+		Cliente cliente2 = new Cliente("Yuri", "333.212.121-12", "fidelidademail@gmail.com", "(63) 9992-9821", 230);
 		listaCliente.add(cliente2);
-		Cliente cliente3 = new Cliente("Zhy", "000.000.000.22", "zhy@gmail.com", "(63) 98438-9200", 100);
+		Cliente cliente3 = new Cliente("Gustavo", "000.000.000.22", "parrogustavo@gmail.com", "(63) 98438-9200", 100);
 		listaCliente.add(cliente3);
 
 		clienteRepository.saveAll(listaCliente);
+
+		Promocao promocao1 = new Promocao("Teste", true, img);
+
+		promocaoRepository.save(promocao1);
 
 	}
 
