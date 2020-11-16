@@ -17,7 +17,9 @@ import br.com.unitins.fidelidade.model.Movimentacao;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.FuncionarioRepository;
 import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
+import br.com.unitins.fidelidade.repository.PermissaoRepository;
 import br.com.unitins.fidelidade.repository.ProdutoRepository;
+import br.com.unitins.fidelidade.security.TextEncryptor;
 
 @RestController
 @RequestMapping(value = "/fidelidade")
@@ -35,6 +37,8 @@ public class FuncionarioResource {
 	ProdutoResource produtoResource;
 	@Autowired
 	ProdutoRepository produtoRepository;
+	@Autowired
+	PermissaoRepository permissaoRepository;
 	
 	@GetMapping("/funcionarios")
 	public List<Funcionario> findAll() {
@@ -48,6 +52,7 @@ public class FuncionarioResource {
 	
 	@PostMapping("/funcionario")
 	public Funcionario createFuncionario(@RequestBody Funcionario funcionario) {
+		funcionario.setPermissao(permissaoRepository.findById(1));
 		return funcionarioRepository.save(funcionario);
 	}
 	

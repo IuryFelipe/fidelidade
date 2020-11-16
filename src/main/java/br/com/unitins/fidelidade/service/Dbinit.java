@@ -68,9 +68,9 @@ public class Dbinit implements CommandLineRunner {
 
 		List<Permissao> listaPermissao = new ArrayList<Permissao>();
 
-		Permissao permissao1 = new Permissao("Admin");
+		Permissao permissao1 = new Permissao("Funcionário");
 		listaPermissao.add(permissao1);
-		Permissao permissao2 = new Permissao("Funcionário");
+		Permissao permissao2 = new Permissao("Cliente");
 		listaPermissao.add(permissao2);
 
 		permissaoRepository.saveAll(listaPermissao);
