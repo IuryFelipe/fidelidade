@@ -29,7 +29,7 @@ public class ClienteResource {
 		return clienteRepository.findAll();
 	}
 	
-	@GetMapping("/cliente/{idCliente}")
+	@GetMapping("/cliente/id/{idCliente}")
 	public Cliente findById(@PathVariable(value = "idCliente") long id ) {
 		return clienteRepository.findById(id);
 	}
@@ -51,7 +51,7 @@ public class ClienteResource {
 		clienteRepository.save(cliente);
 	}
 
-	@GetMapping("/cliente/{cpfCliente}")
+	@GetMapping("/cliente/cpf/{cpfCliente}")
 	public Cliente findByCpf(@PathVariable(value = "cpfCliente") String cpf ) {
 		return clienteRepository.findByCpf(cpf);
 	}

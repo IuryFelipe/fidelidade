@@ -44,6 +44,7 @@ public class Movimentacao implements Serializable{
 	private Integer pontosClientePosterior;
 	@Column(name = "pontosOperacao", nullable = false)
 	private Integer pontosOperacao;
+	private String operacao;
 
 	@PrePersist
 	public void dataOperacao() {

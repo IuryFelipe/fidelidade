@@ -37,6 +37,7 @@ public class MovimentacaoResource {
 	public boolean createMovimentacaoAdicionar(@RequestBody Movimentacao movimentacao) {
 		movimentacao.setCliente(clienteRepository.findById(movimentacao.getCliente().getIdUsuario()));
 		movimentacao.setProdutos(produtoResource.findListaProdutos(movimentacao.getProdutos()));
+		movimentacao.setOperacao("Compra");
 		try {
 			adicionarPontos(movimentacao);
 			
@@ -54,6 +55,7 @@ public class MovimentacaoResource {
 	public boolean createMovimentacaoTrocar(@RequestBody Movimentacao movimentacao) {
 		movimentacao.setCliente(clienteRepository.findById(movimentacao.getCliente().getIdUsuario()));
 		movimentacao.setProdutos(produtoResource.findListaProdutos(movimentacao.getProdutos()));
+		movimentacao.setOperacao("Troca");
 		try {
 			trocarPontos(movimentacao);
 			
@@ -73,9 +75,15 @@ public class MovimentacaoResource {
 	}
 	
     @GetMapping("/Movimentacoes/{cpfCliente}")
-	public Movimentacao findByCliente(@PathVariable(value = "cpfCliente") String cpf ) {
+	public List<Movimentacao> findByCliente(@PathVariable(value = "cpfCliente") String cpf ) {
 		Cliente cliente = clienteRepository.findByCpf(cpf);
 		return movimentacaoRepository.findByCliente(cliente);
+	}
+    
+    @GetMapping("/Movimentacoes/operacao/{cpfCliente}")
+	public List<Movimentacao> findByOPeracaoCliente(@PathVariable(value = "cpfCliente") String cpf){
+		Cliente cliente = clienteRepository.findByCpf(cpf);
+		return movimentacaoRepository.findByOperacaoCliente(cliente);
 	}
     
 	public void adicionarPontos(Movimentacao movimentacao) throws Exception {

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.unitins.fidelidade.model.Categoria;
-import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Produto;
 import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
 import br.com.unitins.fidelidade.repository.ProdutoRepository;
@@ -38,10 +37,21 @@ public class ProdutoResource {
 		return produtoRepository.findAll();
 	}
 	
-	@GetMapping("/produto/{idProduto}")
+	@GetMapping("/produtos/ativos")
+	public List<Produto> findAllAtivos() {
+		return produtoRepository.findAllAtivos();
+	}
+	
+	@GetMapping("/produto/id/{idProduto}")
 	public Produto findById(@PathVariable(value = "idProduto") long id) {
 		return produtoRepository.findById(id);
 	}
+	
+	@GetMapping("/produto/nome/{nome}")
+	public List<Produto> findById(@PathVariable(value = "nome") String nome) {
+		return produtoRepository.findByNome(nome);
+	}
+	
 	/*
 	Precisa ser corrigido isso aqui
 	@PostMapping("/produto")
