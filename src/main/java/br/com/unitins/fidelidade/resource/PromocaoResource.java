@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.unitins.fidelidade.controller.EmailController;
-import br.com.unitins.fidelidade.model.Cliente;
+import br.com.unitins.fidelidade.email.EmailService;
 import br.com.unitins.fidelidade.model.Promocao;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.PromocaoRepository;
@@ -27,10 +26,28 @@ import br.com.unitins.fidelidade.repository.PromocaoRepository;
 public class PromocaoResource {
 
 	@Autowired
-	PromocaoRepository promocaoRepository;
-	ClienteRepository clienteRepository;
-
-	EmailController emailController = new EmailController();
+	private PromocaoRepository promocaoRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EmailService emailService;
+	
+	@GetMapping("/promocao/enviar-email/{idPromocao}")
+	public void enviarEmail(@PathVariable(value = "idPromocao") long id) {
+		
+		Promocao promo = promocaoRepository.findById(id);
+		
+		emailService.sendMailWithInlineResources("daniloccuft@gmail.com", promo.getNome(), promo.getImagem().toString());
+		
+//		List<Cliente> clientes = clienteRepository.findAll();
+//		
+//		for (Cliente cliente : clientes) {
+//			emailService.sendMailWithInlineResources("daniloccuft@gmail.com", promo.getNome(), promo.getImagem().toString());
+//			emailService.sendMailWithInlineResources("daniloccuft@gmail.com", promo.getNome(), "https://i.pinimg.com/originals/12/e4/ad/12e4adb1616aa2a5933c55fa9be72e59.jpg");
+//			emailService.sendMailWithInlineResources(cliente.getEmail(), promo.getNome(), "https://i.pinimg.com/originals/12/e4/ad/12e4adb1616aa2a5933c55fa9be72e59.jpg");
+//		}
+		
+	}
 
 	@GetMapping("/promocoes")
 	public List<Promocao> findAll() {
@@ -52,7 +69,6 @@ public class PromocaoResource {
 		try {
 			Promocao promocao = new Promocao(nome, true, imagem.getBytes());
 			promocaoRepository.save(promocao);
-			sendEmail(nome, imagem);
 			return "Cadastrado com sucesso";
 		} catch (IOException e) {
 			return "Erro durante cadastro: " + e.getMessage();
@@ -71,11 +87,4 @@ public class PromocaoResource {
 		return promocaoRepository.save(promocao);
 	}
 
-	public void sendEmail(String textEmail, MultipartFile image){
-		List<Cliente> clientes = clienteRepository.findAll();
-		for (Cliente cliente : clientes) {
-			System.out.println(cliente.getEmail() + textEmail + image);
-			emailController.sendMail(cliente.getEmail(), textEmail, image);
-		}
-	}
 }
