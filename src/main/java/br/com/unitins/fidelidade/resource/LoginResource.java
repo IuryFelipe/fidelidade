@@ -10,7 +10,7 @@ import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Funcionario;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.FuncionarioRepository;
-import br.com.unitins.fidelidade.security.TextEncryptor;
+import br.com.unitins.fidelidade.security.SimpleEncryptor;
 
 @RestController
 @RequestMapping(value = "/fidelidade")
@@ -42,7 +42,7 @@ public class LoginResource {
 		
 		if(funcionario == null)
 			return "Email ou senha inválidos.";
-		if(!funcionario.getSenha().equals(TextEncryptor.sha256(senha)))
+		if(!funcionario.getSenha().equals(SimpleEncryptor.sha256(senha)))
 			return "Email ou senha inválidos.";
 		
 		return "Acesso liberado.";

@@ -19,7 +19,6 @@ import br.com.unitins.fidelidade.repository.FuncionarioRepository;
 import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
 import br.com.unitins.fidelidade.repository.PermissaoRepository;
 import br.com.unitins.fidelidade.repository.ProdutoRepository;
-import br.com.unitins.fidelidade.security.TextEncryptor;
 
 @RestController
 @RequestMapping(value = "/fidelidade")

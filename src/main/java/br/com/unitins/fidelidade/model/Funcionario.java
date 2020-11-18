@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import br.com.unitins.fidelidade.security.TextEncryptor;
+import br.com.unitins.fidelidade.security.SimpleEncryptor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,12 +33,12 @@ public class Funcionario extends Usuario {
 	@Builder
 	public Funcionario(String nome, String cpf, String email, String senha, Permissao permissao) {
 		super(nome, cpf, email);
-		this.senha = TextEncryptor.sha256(senha);
+		this.senha = SimpleEncryptor.sha256(senha);
 		this.permissao = permissao;
 	}
 	
 	public void setSenha(String senha) {
-		this.senha = TextEncryptor.sha256(senha);
+		this.senha = SimpleEncryptor.sha256(senha);
 	}
 
 }

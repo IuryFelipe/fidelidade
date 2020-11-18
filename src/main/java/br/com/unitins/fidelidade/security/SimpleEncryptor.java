@@ -2,7 +2,7 @@ package br.com.unitins.fidelidade.security;
 
 import java.security.MessageDigest;
 
-public class TextEncryptor {
+public class SimpleEncryptor {
 	
 	public static String sha256(String valor) {
 	    try{
