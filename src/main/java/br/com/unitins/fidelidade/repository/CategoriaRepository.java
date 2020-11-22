@@ -8,4 +8,6 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 	
 	Categoria findById(long id);
 
+	Categoria findByNome(String nome);
+
 }

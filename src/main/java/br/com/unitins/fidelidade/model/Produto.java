@@ -11,7 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
+import br.com.unitins.fidelidade.exception.ValidationGroups;
 import lombok.Data;
 
 @Entity
@@ -21,14 +23,16 @@ public class Produto implements Serializable {
 	
 	private static final long serialVersionUID = 49212977968023201L;
 	
+	@NotNull(groups = ValidationGroups.produtoId.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idProduto;
 	
-	//@NotNull
+	@NotNull
 	@Column(name="nome", length=200, nullable=false)
 	private String nome;
 	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "id_categoria")
 	private Categoria categoria;
@@ -39,6 +43,7 @@ public class Produto implements Serializable {
 	@Column(name="pontosRetirada", nullable = false)
 	private Integer pontosRetirada;
 	
+	@NotNull
 	private boolean status;
 	
 	private byte[] imagem;

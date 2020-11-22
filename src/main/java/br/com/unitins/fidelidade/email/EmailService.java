@@ -38,7 +38,7 @@ public class EmailService {
                 helper.setText("<html><body><img src='cid:identifier1234'></body></html>", true);
                 
                 FileSystemResource res = new FileSystemResource(new File(fileToAttach));
-                helper.addInline("identifier1234", res);
+                helper.addInline("identifier1234", res);                
             }
         };
         
@@ -51,6 +51,36 @@ public class EmailService {
         }
     }
 
+    public void sendMailWithInlineResourcesImage(String to, String subject, File file) 
+    {
+    	MimeMessagePreparator preparator = new MimeMessagePreparator() 
+    	{
+            public void prepare(MimeMessage mimeMessage) throws Exception 
+            {
+                mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+                mimeMessage.setFrom(new InternetAddress("admin@gmail.com"));
+                mimeMessage.setSubject(subject);
+                
+                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+                
+//                helper.setText("<html><body><img src='" + fileToAttach + "'></body></html>", true);
+                
+                helper.setText("<html><body><img src='cid:identifier1234'></body></html>", true);
+                
+                FileSystemResource res = new FileSystemResource(file);
+                helper.addInline("identifier1234", res);                
+            }
+        };
+        
+        try {
+            mailSender.send(preparator);
+        }
+        catch (MailException ex) {
+            // simply log it and go on...
+            System.err.println(ex.getMessage());
+        }
+    }
+    
 	public void sendMail(String to, String subject, String body) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(to);

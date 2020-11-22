@@ -9,7 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
+import br.com.unitins.fidelidade.exception.ValidationGroups;
 import lombok.Data;
 
 @Entity
@@ -19,13 +21,16 @@ public class Categoria implements Serializable{
 	
 	private static final long serialVersionUID = 5775600215216301704L;
 	
+	@NotNull(groups = ValidationGroups.categoriaId.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idCategoria;
 	
+	@NotNull
 	@Column(name="nome", nullable = false)
 	private String nome;
 	
+	@NotNull
 	private boolean status;
 	
 	public Categoria(String nome) {
@@ -35,6 +40,10 @@ public class Categoria implements Serializable{
 
 	public Categoria() {
 		this.status = true;
+	}
+	
+	public Categoria(long idCategoria) {
+		this.idCategoria  = idCategoria;
 	}
 	
 }
