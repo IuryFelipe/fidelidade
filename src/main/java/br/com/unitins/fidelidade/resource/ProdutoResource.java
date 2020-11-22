@@ -1,6 +1,5 @@
 package br.com.unitins.fidelidade.resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,11 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import br.com.unitins.fidelidade.model.Categoria;
+import br.com.unitins.fidelidade.exception.NegocioException;
 import br.com.unitins.fidelidade.model.Produto;
 import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
 import br.com.unitins.fidelidade.repository.ProdutoRepository;
@@ -27,92 +25,55 @@ import br.com.unitins.fidelidade.repository.ProdutoRepository;
 @RestController
 @RequestMapping(value = "/fidelidade")
 public class ProdutoResource {
-	
+
 	@Autowired
 	ProdutoRepository produtoRepository;
 	MovimentacaoRepository movimentacaoRepository;
-	
+
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/produtos")
 	public List<Produto> findAll() {
 		return produtoRepository.findAll();
 	}
-	
+
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/produtos/ativos")
 	public List<Produto> findAllAtivos() {
 		return produtoRepository.findAllAtivos();
 	}
-	
-	@GetMapping("/produto/id/{idProduto}")
+
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/produto/{idProduto}")
 	public Produto findById(@PathVariable(value = "idProduto") long id) {
 		return produtoRepository.findById(id);
 	}
-	
+
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/produto/nome/{nome}")
-	public List<Produto> findById(@PathVariable(value = "nome") String nome) {
+	public Produto findById(@PathVariable(value = "nome") String nome) {
 		return produtoRepository.findByNome(nome);
 	}
-	
-	/*
-	Precisa ser corrigido isso aqui
+
 	@PostMapping("/produto")
-    public ResponseEntity<List<Produto>> createProduto(@RequestBody @Valid List<Produto> produtos, Cliente cliente) {
-		System.out.println(produtos);
-		for (Produto produto : produtos) {
-			produtoRepository.save(produto);
+	public ResponseEntity<Produto> createProduto(@Valid @RequestBody Produto produto) {
+		Produto produtoExistente = produtoRepository.findByNome(produto.getNome());
+		if (produtoExistente != null) {
+			throw new NegocioException("Este produto já foi cadastrado.");
 		}
-        return new ResponseEntity<List<Produto>>(produtos, HttpStatus.CREATED);
-	}*/ 
-	
-	@PostMapping("/produto")
-    public ResponseEntity<Produto> createProduto(@RequestBody MultipartFile imagem, @RequestParam String nome, @RequestParam Categoria categoria, int pontosRecebidos, int pontosRetirada) {
-		try {
-			Produto produto = new Produto(nome, categoria, imagem.getBytes(), pontosRecebidos, pontosRetirada);
-			produtoRepository.save(produto);
-			return ResponseEntity.status(HttpStatus.CREATED).build();
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}	
+		return new ResponseEntity<Produto>(produtoRepository.save(produto), HttpStatus.CREATED);
 	}
-	
+
+	@ResponseStatus(HttpStatus.OK)
 	@DeleteMapping("/produto/{idProduto}")
 	public void deleteProduto(@PathVariable(value = "idProduto") long id) {
-		Produto produto = produtoRepository.findById(id);
-		produto.setStatus(false);
-		produtoRepository.save(produto);
+		Produto produto = new Produto();
+		produto.setIdProduto(id);
+		produtoRepository.delete(produto);
 	}
-	
-	@PutMapping("/produto") 
-	public Produto updateProduto(@RequestBody @Valid Produto produto) {
-		return produtoRepository.save(produto);
-	}
-	
-	public List<Produto> findListaProdutos(List<Produto> produtos) {
-		List<Produto> aux = new ArrayList<Produto>();
-		for (Produto produto : produtos) {
-			aux.add(produtoRepository.findById(produto.getIdProduto()));
-		}
-		
-		return aux;
+
+	@PutMapping("/produto")
+	public ResponseEntity<Produto> updateProduto(@RequestBody @Valid Produto produto) {
+		return new ResponseEntity<Produto>(produtoRepository.save(produto), HttpStatus.CREATED);
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

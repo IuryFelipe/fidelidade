@@ -11,7 +11,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long>{
 	
 	Produto findById(long id);
 	
-	List<Produto> findByNome(String nome);
+	Produto findByNome(String nome);
 	
 	@Query(value = "SELECT p FROM Produto p WHERE p.status = 'true'")
 	List<Produto> findAllAtivos();

@@ -37,10 +37,10 @@ public class Produto implements Serializable {
 	@JoinColumn(name = "id_categoria")
 	private Categoria categoria;
 	
-	@Column(name="pontosRecebidos", nullable = false)
+	@NotNull
 	private Integer pontosRecebidos;
 	
-	@Column(name="pontosRetirada", nullable = false)
+	@NotNull
 	private Integer pontosRetirada;
 	
 	@NotNull
@@ -48,18 +48,17 @@ public class Produto implements Serializable {
 	
 	private byte[] imagem;
 	
-	public Produto(String nome, Categoria categoria, byte[] imagem, Integer pontosRecebidos, Integer pontosRetirada) {
+	public Produto(String nome, Categoria categoria, byte[] imagem, Integer pontosRecebidos, Integer pontosRetirada, boolean status) {
 		super();
 		this.nome = nome;
 		this.categoria = categoria;
 		this.imagem = imagem;
 		this.pontosRecebidos = pontosRecebidos;
 		this.pontosRetirada = pontosRetirada;
-		this.status = true;
+		this.status = status;
 	}
 
 	public Produto() {
-		this.status = true;
 	}
 
 }

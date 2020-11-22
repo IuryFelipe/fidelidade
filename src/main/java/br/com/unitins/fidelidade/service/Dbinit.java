@@ -51,17 +51,17 @@ public class Dbinit implements CommandLineRunner {
 
 		List<Produto> listaProduto = new ArrayList<Produto>();
 		byte[] img = "teste".getBytes(); //apenas para preencher algo no banco
-		Produto produto1 = new Produto("Bolo de cenoura", categoria2, img, 10, 100);
+		Produto produto1 = new Produto("Bolo de cenoura", categoria2, img, 10, 100, true);
 		listaProduto.add(produto1);
-		Produto produto2 = new Produto("Torta de Morango", categoria1, img, 12, 120);
+		Produto produto2 = new Produto("Torta de Morango", categoria1, img, 12, 120, true);
 		listaProduto.add(produto2);
-		Produto produto3 = new Produto("Doce de leite 200g", categoria3, img, 8, 80);
+		Produto produto3 = new Produto("Doce de leite 200g", categoria3, img, 8, 80, true);
 		listaProduto.add(produto3);
-		Produto produto4 = new Produto("Bolo de Fuba", categoria2, img, 5, 50);
+		Produto produto4 = new Produto("Bolo de Fuba", categoria2, img, 5, 50, true);
 		listaProduto.add(produto4);
-		Produto produto5 = new Produto("Torta de Limão", categoria1, img, 11, 110);
+		Produto produto5 = new Produto("Torta de Limão", categoria1, img, 11, 110, false);
 		listaProduto.add(produto5);
-		Produto produto6 = new Produto("Doce de Jiló", categoria3, img, 6, 60);
+		Produto produto6 = new Produto("Doce de Jiló", categoria3, img, 6, 60, false);
 		listaProduto.add(produto6);
 
 		produtoRepository.saveAll(listaProduto);

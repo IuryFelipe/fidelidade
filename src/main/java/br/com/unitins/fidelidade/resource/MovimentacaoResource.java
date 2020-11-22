@@ -1,5 +1,6 @@
 package br.com.unitins.fidelidade.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class MovimentacaoResource {
 	@PostMapping("/Movimentacao/AdicionarPontos")
 	public boolean createMovimentacaoAdicionar(@RequestBody Movimentacao movimentacao) {
 		movimentacao.setCliente(clienteRepository.findById(movimentacao.getCliente().getIdUsuario()));
-		movimentacao.setProdutos(produtoResource.findListaProdutos(movimentacao.getProdutos()));
+		movimentacao.setProdutos(findListaProdutos(movimentacao.getProdutos()));
 		movimentacao.setOperacao("Compra");
 		try {
 			adicionarPontos(movimentacao);
@@ -54,7 +55,7 @@ public class MovimentacaoResource {
 	@PostMapping("/Movimentacao/RealizarTroca")
 	public boolean createMovimentacaoTrocar(@RequestBody Movimentacao movimentacao) {
 		movimentacao.setCliente(clienteRepository.findById(movimentacao.getCliente().getIdUsuario()));
-		movimentacao.setProdutos(produtoResource.findListaProdutos(movimentacao.getProdutos()));
+		movimentacao.setProdutos(findListaProdutos(movimentacao.getProdutos()));
 		movimentacao.setOperacao("Troca");
 		try {
 			trocarPontos(movimentacao);
@@ -86,7 +87,7 @@ public class MovimentacaoResource {
 		return movimentacaoRepository.findByOperacaoCliente(cliente);
 	}
     
-	public void adicionarPontos(Movimentacao movimentacao) throws Exception {
+    private void adicionarPontos(Movimentacao movimentacao) throws Exception {
 		Integer pontosProdutos = 0;
 		for (Produto produto : movimentacao.getProdutos()) {
 			pontosProdutos += produto.getPontosRecebidos();
@@ -98,7 +99,7 @@ public class MovimentacaoResource {
 		movimentacao.getCliente().setPontos(movimentacao.getPontosClientePosterior());
 	}
     
-	public void trocarPontos(Movimentacao movimentacao) throws Exception, PontosException {
+	private void trocarPontos(Movimentacao movimentacao) throws Exception, PontosException {
 		Integer pontosProdutos = 0;
 		for (Produto produto : movimentacao.getProdutos()) {
 			pontosProdutos += produto.getPontosRetirada();
@@ -111,6 +112,15 @@ public class MovimentacaoResource {
 		movimentacao.setPontosOperacao(pontosProdutos);
 		movimentacao.setPontosClientePosterior(movimentacao.getCliente().getPontos() - pontosProdutos);
 		movimentacao.getCliente().setPontos(movimentacao.getPontosClientePosterior());
+	}
+	
+	private List<Produto> findListaProdutos(List<Produto> produtos) {
+		List<Produto> aux = new ArrayList<Produto>();
+		for (Produto produto : produtos) {
+			aux.add(produtoRepository.findById(produto.getIdProduto()));
+		}
+		
+		return aux;
 	}
 
 }
