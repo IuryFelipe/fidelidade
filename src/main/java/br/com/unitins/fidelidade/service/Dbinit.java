@@ -24,17 +24,19 @@ import br.com.unitins.fidelidade.repository.PromocaoRepository;
 public class Dbinit implements CommandLineRunner {
 
 	@Autowired
-	CategoriaRepository categoriaRepository;
+	private CategoriaRepository categoriaRepository;
 	@Autowired
-	ProdutoRepository produtoRepository;
+	private ProdutoRepository produtoRepository;
 	@Autowired
-	PermissaoRepository permissaoRepository;
+	private PermissaoRepository permissaoRepository;
 	@Autowired
-	FuncionarioRepository funcionarioRepository;
+	private FuncionarioRepository funcionarioRepository;
 	@Autowired
-	ClienteRepository clienteRepository;
+	private ClienteRepository clienteRepository;
 	@Autowired
-	PromocaoRepository promocaoRepository;
+	private PromocaoRepository promocaoRepository;
+	@Autowired
+	private Utils utils;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -89,6 +91,8 @@ public class Dbinit implements CommandLineRunner {
 
 		List<Cliente> listaCliente = new ArrayList<Cliente>();
 
+		Cliente cliente0 = new Cliente("Prof. Danilo", "666.000.000.22", "daniloccuft@gmail.com", "(63) 98421-1107", 0);
+		listaCliente.add(cliente0);
 		Cliente cliente1 = new Cliente("Tales", "222.111.333-44", "taalesmelquiades@gmail.com", "(63) 98762-2132", 120);
 		listaCliente.add(cliente1);
 		Cliente cliente2 = new Cliente("Yuri", "333.212.121-12", "fidelidademail@gmail.com", "(63) 9992-9821", 230);
@@ -98,8 +102,10 @@ public class Dbinit implements CommandLineRunner {
 
 		clienteRepository.saveAll(listaCliente);
 
-		byte[] img = "teste".getBytes(); //apenas para preencher algo no banco
-		Promocao promocao1 = new Promocao("Teste", true, img);
+		//apenas para preencher algo no banco
+		byte[] img = "teste".getBytes(); 
+		String urlImagem = "https://i.pinimg.com/originals/12/e4/ad/12e4adb1616aa2a5933c55fa9be72e59.jpg";
+		Promocao promocao1 = new Promocao("teste", true, utils.compressZLib(img), urlImagem);
 
 		promocaoRepository.save(promocao1);
 
