@@ -48,11 +48,12 @@ public class Produto implements Serializable {
 	
 	private byte[] imagem;
 	
-	public Produto(String nome, Categoria categoria, byte[] imagem, Integer pontosRecebidos, Integer pontosRetirada, boolean status) {
+	private String type;
+	
+	public Produto(String nome, Categoria categoria, Integer pontosRecebidos, Integer pontosRetirada, boolean status) {
 		super();
 		this.nome = nome;
 		this.categoria = categoria;
-		this.imagem = imagem;
 		this.pontosRecebidos = pontosRecebidos;
 		this.pontosRetirada = pontosRetirada;
 		this.status = status;
