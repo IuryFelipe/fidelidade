@@ -33,13 +33,12 @@ public class Categoria implements Serializable{
 	@NotNull
 	private boolean status;
 	
-	public Categoria(String nome) {
+	public Categoria(String nome, boolean status) {
 		this.nome = nome;
-		this.status = true;
+		this.status = status;
 	}
 
 	public Categoria() {
-		this.status = true;
 	}
 	
 	public Categoria(long idCategoria) {

@@ -44,16 +44,7 @@ public class CategoriaResource {
 	public Categoria findById(@PathVariable(value = "idCategoria") long id) {
 		return categoriaRepository.findById(id);
 	}
-
-	@PostMapping("/categoria")
-	public ResponseEntity<Categoria> createCategoria(@Valid @RequestBody Categoria categoria) {
-		Categoria categoriaExistente = categoriaRepository.findByNome(categoria.getNome());
-		if (categoriaExistente != null) {
-			throw new NegocioException("Está categoria já foi cadastrada.");
-		}
-		return new ResponseEntity<Categoria>(categoriaRepository.save(categoria), HttpStatus.CREATED);
-	}
-
+	
 	@ResponseStatus(HttpStatus.OK)
 	@DeleteMapping("/categoria/{idCategoria}")
 	public void deleteCategoria(@PathVariable(value = "idCategoria") long id) {
@@ -63,6 +54,15 @@ public class CategoriaResource {
 		}
 		Categoria categoria = new Categoria(id);
 		categoriaRepository.delete(categoria);
+	}
+
+	@PostMapping("/categoria")
+	public ResponseEntity<Categoria> createCategoria(@Valid @RequestBody Categoria categoria) {
+		Categoria categoriaExistente = categoriaRepository.findByNome(categoria.getNome());
+		if (categoriaExistente != null) {
+			throw new NegocioException("Está categoria já foi cadastrada.");
+		}
+		return new ResponseEntity<Categoria>(categoriaRepository.save(categoria), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/categoria")

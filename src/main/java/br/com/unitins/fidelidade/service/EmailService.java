@@ -25,7 +25,7 @@ public class EmailService {
             public void prepare(MimeMessage mimeMessage) throws Exception 
             {
                 mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-                mimeMessage.setFrom(new InternetAddress("admin@gmail.com"));
+                mimeMessage.setFrom(new InternetAddress("fidelidademail@gmail.com"));
                 mimeMessage.setSubject(subject);
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
                 helper.setText("<html><body><img src='" + urlImg + "'></body></html>", true);

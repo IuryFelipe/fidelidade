@@ -42,11 +42,11 @@ public class Dbinit implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		List<Categoria> listaCategoria = new ArrayList<Categoria>();
 
-		Categoria categoria1 = new Categoria("Tortas");
+		Categoria categoria1 = new Categoria("Tortas", true);
 		listaCategoria.add(categoria1);
-		Categoria categoria2 = new Categoria("Bolos");
+		Categoria categoria2 = new Categoria("Bolos", true);
 		listaCategoria.add(categoria2);
-		Categoria categoria3 = new Categoria("Doces");
+		Categoria categoria3 = new Categoria("Doces", true);
 		listaCategoria.add(categoria3);
 
 		categoriaRepository.saveAll(listaCategoria);
