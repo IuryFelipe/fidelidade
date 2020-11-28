@@ -44,7 +44,7 @@ public class CategoriaResource {
 	public Categoria findById(@PathVariable(value = "idCategoria") long id) {
 		return categoriaRepository.findById(id);
 	}
-	
+
 	@ResponseStatus(HttpStatus.OK)
 	@DeleteMapping("/categoria/{idCategoria}")
 	public void deleteCategoria(@PathVariable(value = "idCategoria") long id) {
@@ -67,6 +67,12 @@ public class CategoriaResource {
 
 	@PutMapping("/categoria")
 	public ResponseEntity<Categoria> updateCategoria(@Valid @RequestBody Categoria categoria) {
+		Categoria categoriaExistente = categoriaRepository.findByNome(categoria.getNome());
+		if (categoriaExistente != null) {
+			if (categoriaExistente.getIdCategoria() != categoria.getIdCategoria()) {
+				throw new NegocioException("Está categoria já foi cadastrada.");
+			}
+		}
 		List<Produto> listProdutosExistente = produtoRepository.findByCategoria(categoria.getIdCategoria());
 		if (!listProdutosExistente.isEmpty()) {
 			for (Produto produto : listProdutosExistente) {
