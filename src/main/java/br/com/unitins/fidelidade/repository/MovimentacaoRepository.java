@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Movimentacao;
+import br.com.unitins.fidelidade.model.Produto;
 
 public interface MovimentacaoRepository extends JpaRepository<Movimentacao, Long> {
 
@@ -16,4 +17,8 @@ public interface MovimentacaoRepository extends JpaRepository<Movimentacao, Long
     @Query(value = "SELECT m FROM Movimentacao m WHERE m.cliente = :cliente AND m.operacao like 'Troca'")
     List<Movimentacao> findByOperacaoCliente(@Param("cliente") Cliente cliente);
     List<Movimentacao> findByOperacao(String operacao);
+    
+    @Query(value = "SELECT * FROM tb_movimentacao p WHERE p.id_cliente = ?1", 
+			  nativeQuery = true)
+	List<Movimentacao> findByIdCliente(long idCliente);
 }

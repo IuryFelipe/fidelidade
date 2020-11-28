@@ -48,6 +48,9 @@ public class Dbinit implements CommandLineRunner {
 		listaCategoria.add(categoria2);
 		Categoria categoria3 = new Categoria("Doces", true);
 		listaCategoria.add(categoria3);
+		
+		Categoria categoria4 = new Categoria("Veganos", true);
+		listaCategoria.add(categoria4);
 
 		categoriaRepository.saveAll(listaCategoria);
 
