@@ -52,8 +52,7 @@ public class CategoriaResource {
 		if (!listProdutosExistente.isEmpty()) {
 			throw new NegocioException("Você não pode excluir uma categoria que possui produtos cadastrados.");
 		}
-		Categoria categoria = new Categoria(id);
-		categoriaRepository.delete(categoria);
+		categoriaRepository.deleteById(id);
 	}
 
 	@PostMapping("/categoria")
