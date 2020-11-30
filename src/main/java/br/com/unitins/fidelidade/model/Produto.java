@@ -46,17 +46,17 @@ public class Produto implements Serializable {
 	@NotNull
 	private boolean status;
 	
-	private byte[] imagem;
+	@NotNull
+	private String urlImage;
 	
-	private String type;
-	
-	public Produto(String nome, Categoria categoria, Integer pontosRecebidos, Integer pontosRetirada, boolean status) {
+	public Produto(String nome, Categoria categoria, Integer pontosRecebidos, Integer pontosRetirada, boolean status, String urlImage) {
 		super();
 		this.nome = nome;
 		this.categoria = categoria;
 		this.pontosRecebidos = pontosRecebidos;
 		this.pontosRetirada = pontosRetirada;
 		this.status = status;
+		this.urlImage = urlImage;
 	}
 
 	public Produto() {

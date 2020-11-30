@@ -1,7 +1,5 @@
 package br.com.unitins.fidelidade.resource;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -16,15 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import br.com.unitins.fidelidade.exception.NegocioException;
 import br.com.unitins.fidelidade.model.Produto;
 import br.com.unitins.fidelidade.repository.ProdutoRepository;
-import br.com.unitins.fidelidade.service.Utils;
 
 @RestController
 @RequestMapping(value = "/fidelidade")
@@ -32,48 +27,25 @@ public class ProdutoResource {
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
-	@Autowired
-	private Utils utils;
 
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/produtos")
 	public List<Produto> findAll() {
 		List<Produto> listProduto = produtoRepository.findAll();
-		List<Produto> listProdutoAux = new ArrayList<Produto>();
-		if (!listProduto.isEmpty()) {
-			for (Produto produto : listProduto) {
-				if (produto.getImagem() != null) {
-					produto.setImagem(utils.decompressZLib(produto.getImagem()));
-				}
-				listProdutoAux.add(produto);
-			}
-		}
-		return listProdutoAux;
+		return listProduto;
 	}
 
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/produtos/ativos")
 	public List<Produto> findAllAtivos() {
 		List<Produto> listProduto = produtoRepository.findAllAtivos();
-		List<Produto> listProdutoAux = new ArrayList<Produto>();
-		if (!listProduto.isEmpty()) {
-			for (Produto produto : listProduto) {
-				if (produto.getImagem() != null) {
-					produto.setImagem(utils.decompressZLib(produto.getImagem()));
-				}
-				listProdutoAux.add(produto);
-			}
-		}
-		return listProdutoAux;
+		return listProduto;
 	}
 
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/produto/{idProduto}")
 	public Produto findById(@PathVariable(value = "idProduto") long id) {
 		Produto produto = produtoRepository.findById(id);
-		if (produto.getImagem() != null) {
-			produto.setImagem(utils.decompressZLib(produto.getImagem()));
-		}
 		return produto;
 	}
 
@@ -81,9 +53,6 @@ public class ProdutoResource {
 	@GetMapping("/produto/nome/{nome}")
 	public Produto findById(@PathVariable(value = "nome") String nome) {
 		Produto produto = produtoRepository.findByNome(nome);
-		if (produto.getImagem() != null) {
-			produto.setImagem(utils.decompressZLib(produto.getImagem()));
-		}
 		return produto;
 	}
 
@@ -106,15 +75,6 @@ public class ProdutoResource {
 
 	@PutMapping("/produto")
 	public ResponseEntity<Produto> updateProduto(@RequestBody @Valid Produto produto) {
-		return new ResponseEntity<Produto>(produtoRepository.save(produto), HttpStatus.CREATED);
-	}
-
-	@PostMapping("/produto/upload-imagem")
-	public ResponseEntity<Produto> uplaodImage(@RequestParam("idProduto") long idProduto,
-			@RequestParam("imagemFile") MultipartFile imagemFile) throws IOException {
-		Produto produto = produtoRepository.findById(idProduto);
-		produto.setType(imagemFile.getContentType());
-		produto.setImagem(utils.compressZLib(imagemFile.getBytes()));
 		return new ResponseEntity<Produto>(produtoRepository.save(produto), HttpStatus.CREATED);
 	}
 

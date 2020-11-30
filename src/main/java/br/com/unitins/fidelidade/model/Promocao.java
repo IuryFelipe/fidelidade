@@ -32,21 +32,18 @@ public class Promocao implements Serializable {
 	@NotNull
 	private boolean status;
 
-	private byte[] imagem;
-
 	@NotNull
-	private String urlImg;
+	private String urlImage;
 
 	public Promocao() {
 		super();
 	}
 
-	public Promocao(String nome, boolean status, byte[] imagem, String urlImg) {
+	public Promocao(String nome, boolean status, String urlImage) {
 		super();
 		this.nome = nome;
 		this.status = status;
-		this.imagem = imagem;
-		this.urlImg = urlImg;
+		this.urlImage = urlImage;
 	}
 
 }
