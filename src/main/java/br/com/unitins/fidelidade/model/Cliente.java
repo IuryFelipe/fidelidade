@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -17,8 +18,10 @@ public class Cliente extends Usuario {
 
 	private static final long serialVersionUID = -3109859511744004660L;
 
+	@NotBlank
 	@Column(name = "telefone", nullable = false)
 	private String telefone;
+	
 	private Integer pontos;
 
 	@Builder

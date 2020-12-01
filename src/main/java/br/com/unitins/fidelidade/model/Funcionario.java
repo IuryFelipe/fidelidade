@@ -6,6 +6,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import br.com.unitins.fidelidade.security.SimpleEncryptor;
 import lombok.Builder;
@@ -20,8 +22,11 @@ public class Funcionario extends Usuario {
 
 	private static final long serialVersionUID = -2513556090171419870L;
 
+	@NotBlank
 	@Column(name = "senha", nullable = false)
 	private String senha;
+	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "id_permissao")
 	private Permissao permissao;

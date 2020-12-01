@@ -4,8 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,42 +33,53 @@ public class ClienteResource {
 	@Autowired
 	MovimentacaoRepository MovimentacaoRepository;
 
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/clientes")
 	public List<Cliente> findAll() {
 		return clienteRepository.findAll();
 	}
 
-	@GetMapping("/cliente/id/{idCliente}")
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/cliente/{idCliente}")
 	public Cliente findById(@PathVariable(value = "idCliente") long id) {
 		return clienteRepository.findById(id);
 	}
 
-	@PostMapping("/cliente")
-	public Cliente createCliente(@RequestBody Cliente cliente) {
-		return clienteRepository.save(cliente);
-	}
-
-	@PutMapping("/cliente")
-	public Cliente updateCliente(@RequestBody @Valid Cliente antigoCliente) {
-		return clienteRepository.save(antigoCliente);
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/cliente/cpf/{cpfCliente}")
+	public Cliente findByCpf(@PathVariable(value = "cpfCliente") String cpf) {
+		return clienteRepository.findByCpf(cpf);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
 	@DeleteMapping("/cliente/{idCliente}")
-	public void deleteCliente(@PathVariable(value = "idCliente") long id ) {
-		List<Movimentacao> listMovimentacaoExistente= MovimentacaoRepository.findByIdCliente(id);
-
-		if(!listMovimentacaoExistente.isEmpty()) {
+	public void deleteCliente(@PathVariable(value = "idCliente") long id) {
+		List<Movimentacao> listMovimentacaoExistente = MovimentacaoRepository.findByIdCliente(id);
+		if (!listMovimentacaoExistente.isEmpty()) {
 			throw new NegocioException("Você não pode excluir um cliente que possui movimentacoes cadastradas.");
 		}
 		clienteRepository.deleteById(id);
-		
-		
 	}
 
-	@GetMapping("/cliente/cpf/{cpfCliente}")
-	public Cliente findByCpf(@PathVariable(value = "cpfCliente") String cpf) {
-		return clienteRepository.findByCpf(cpf);
+	@PostMapping("/cliente")
+	public ResponseEntity<Cliente> createCliente(@RequestBody Cliente cliente) {
+		Cliente clienteExistente = clienteRepository.findByCpf(cliente.getCpf());
+		if (clienteExistente != null) {
+			throw new NegocioException("Este CPF já foi cadastrado.");
+		}
+		if (cliente.getPontos() == null) {
+			cliente.setPontos(0);
+		}
+		return new ResponseEntity<Cliente>(clienteRepository.save(cliente), HttpStatus.CREATED);
+	}
+
+	@PutMapping("/cliente")
+	public ResponseEntity<Cliente> updateCliente(@RequestBody @Valid Cliente cliente) {
+		Cliente clienteExistente = clienteRepository.findByCpf(cliente.getCpf());
+		if (clienteExistente.getIdUsuario() != cliente.getIdUsuario()) {
+			throw new NegocioException("Está categoria já foi cadastrada.");
+		}
+		return new ResponseEntity<Cliente>(clienteRepository.save(cliente), HttpStatus.CREATED);
 	}
 
 }

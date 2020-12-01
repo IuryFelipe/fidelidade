@@ -75,6 +75,10 @@ public class ProdutoResource {
 
 	@PutMapping("/produto")
 	public ResponseEntity<Produto> updateProduto(@RequestBody @Valid Produto produto) {
+		Produto produtoExistente = produtoRepository.findByNome(produto.getNome());
+		if (produtoExistente.getIdProduto() != produto.getIdProduto()) {
+			throw new NegocioException("Este produto já foi cadastrado.");
+		}
 		return new ResponseEntity<Produto>(produtoRepository.save(produto), HttpStatus.CREATED);
 	}
 

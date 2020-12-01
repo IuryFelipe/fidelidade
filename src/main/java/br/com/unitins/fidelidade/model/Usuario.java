@@ -11,6 +11,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,14 +28,22 @@ public abstract class Usuario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idUsuario;
+	
+	@NotBlank
 	@Column(name="nome", nullable = false)
 	private String nome;
+	
+	@NotBlank
 	@Column(name="cpf", nullable = false)
 	private String cpf;
+		
 	@Column(name="email", nullable = false)
 	private String email;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataAlteracao;
+	
+	@NotNull
 	private boolean status;
 	
 	@PreUpdate

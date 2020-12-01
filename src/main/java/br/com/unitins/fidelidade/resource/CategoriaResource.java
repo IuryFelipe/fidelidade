@@ -67,10 +67,8 @@ public class CategoriaResource {
 	@PutMapping("/categoria")
 	public ResponseEntity<Categoria> updateCategoria(@Valid @RequestBody Categoria categoria) {
 		Categoria categoriaExistente = categoriaRepository.findByNome(categoria.getNome());
-		if (categoriaExistente != null) {
-			if (categoriaExistente.getIdCategoria() != categoria.getIdCategoria()) {
-				throw new NegocioException("Está categoria já foi cadastrada.");
-			}
+		if (categoriaExistente.getIdCategoria() != categoria.getIdCategoria()) {
+			throw new NegocioException("Está categoria já foi cadastrada.");
 		}
 		List<Produto> listProdutosExistente = produtoRepository.findByCategoria(categoria.getIdCategoria());
 		if (!listProdutosExistente.isEmpty()) {
