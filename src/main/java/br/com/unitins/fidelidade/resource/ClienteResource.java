@@ -76,8 +76,10 @@ public class ClienteResource {
 	@PutMapping("/cliente")
 	public ResponseEntity<Cliente> updateCliente(@RequestBody @Valid Cliente cliente) {
 		Cliente clienteExistente = clienteRepository.findByCpf(cliente.getCpf());
-		if (clienteExistente.getIdUsuario() != cliente.getIdUsuario()) {
-			throw new NegocioException("Está categoria já foi cadastrada.");
+		if (clienteExistente != null) {
+			if (clienteExistente.getIdUsuario() != cliente.getIdUsuario()) {
+				throw new NegocioException("Está categoria já foi cadastrada.");
+			}
 		}
 		return new ResponseEntity<Cliente>(clienteRepository.save(cliente), HttpStatus.CREATED);
 	}
