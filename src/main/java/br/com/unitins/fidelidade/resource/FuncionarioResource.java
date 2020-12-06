@@ -92,7 +92,9 @@ public class FuncionarioResource {
 	public ResponseEntity<Movimentacao> createMovimentacao(@RequestBody Movimentacao movimentacao) {
 		Movimentacao movimentacaoExistente = movimentacaoRepository.findById(movimentacao.getIdMovimentacao());
 		if (movimentacaoExistente != null) {
-			throw new NegocioException("Esta movimentação já foi cadastrado.");
+			if (movimentacaoExistente.getIdMovimentacao() != movimentacao.getIdMovimentacao()) {
+				throw new NegocioException("Esta movimentação já foi cadastrada.");
+			}
 		}
 		return new ResponseEntity<Movimentacao>(movimentacaoRepository.save(movimentacao), HttpStatus.CREATED);
 	}
