@@ -65,7 +65,9 @@ public class ClienteResource {
 	public ResponseEntity<Cliente> createCliente(@RequestBody Cliente cliente) {
 		Cliente clienteExistente = clienteRepository.findByCpf(cliente.getCpf());
 		if (clienteExistente != null) {
+			if (clienteExistente.getIdUsuario() != cliente.getIdUsuario()) {
 			throw new NegocioException("Este CPF já foi cadastrado.");
+			}
 		}
 		if (cliente.getPontos() == null) {
 			cliente.setPontos(0);
@@ -78,7 +80,7 @@ public class ClienteResource {
 		Cliente clienteExistente = clienteRepository.findByCpf(cliente.getCpf());
 		if (clienteExistente != null) {
 			if (clienteExistente.getIdUsuario() != cliente.getIdUsuario()) {
-				throw new NegocioException("Está categoria já foi cadastrada.");
+				throw new NegocioException("Este CPF não foi cadastrado.");
 			}
 		}
 		return new ResponseEntity<Cliente>(clienteRepository.save(cliente), HttpStatus.CREATED);

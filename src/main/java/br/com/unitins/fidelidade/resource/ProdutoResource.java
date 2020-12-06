@@ -78,7 +78,7 @@ public class ProdutoResource {
 		Produto produtoExistente = produtoRepository.findByNome(produto.getNome());
 		if (produtoExistente != null) {
 			if (produtoExistente.getIdProduto() != produto.getIdProduto()) {
-				throw new NegocioException("Este produto já foi cadastrado.");
+				throw new NegocioException("Este produto não foi cadastrado.");
 			}
 		}
 		return new ResponseEntity<Produto>(produtoRepository.save(produto), HttpStatus.CREATED);

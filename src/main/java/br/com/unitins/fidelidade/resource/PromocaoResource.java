@@ -77,13 +77,21 @@ public class PromocaoResource {
 	public ResponseEntity<Promocao> createPromocao(@Valid @RequestBody Promocao promocao) {
 		Promocao promocaoExistente = promocaoRepository.findByNome(promocao.getNome());
 		if (promocaoExistente != null) {
+			if (promocaoExistente.getIdPromocao() != promocao.getIdPromocao()) {
 			throw new NegocioException("Esta promocao já foi cadastrado.");
+			}
 		}
 		return new ResponseEntity<Promocao>(promocaoRepository.save(promocao), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/promocao")
 	public ResponseEntity<Promocao> updatePromocao(@RequestBody @Valid Promocao promocao) {
+		Promocao promocaoExistente = promocaoRepository.findByNome(promocao.getNome());
+		if (promocaoExistente != null) {
+			if (promocaoExistente.getIdPromocao() != promocao.getIdPromocao()) {
+				throw new NegocioException("Esta promoção não foi cadastrada.");
+			}
+		}
 		return new ResponseEntity<Promocao>(promocaoRepository.save(promocao), HttpStatus.CREATED);
 	}
 
