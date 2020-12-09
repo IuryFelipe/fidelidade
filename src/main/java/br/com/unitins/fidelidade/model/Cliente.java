@@ -28,10 +28,11 @@ public class Cliente extends Usuario implements UserDetails {
 	private Integer pontos;
 
 	@Builder
-	public Cliente(String nome, String cpf, String email, String telefone, Integer pontos) {
+	public Cliente(String nome, String cpf, String email, String telefone, Integer pontos, Permissao permissao) {
 		super(nome, cpf, email);
 		this.telefone = telefone;
 		this.pontos = pontos;
+		setPermissao(permissao);
 	}
 	
 	@Builder

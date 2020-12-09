@@ -73,26 +73,24 @@ public class Dbinit implements CommandLineRunner {
 
 		List<Funcionario> listaFuncionario = new ArrayList<Funcionario>();
 
-		Funcionario funcionario1 = new Funcionario("Gustavo Parro", "123.123.123-00", "gustavo@gmail.com", "123",
-				permissao1);
+		Funcionario funcionario1 = new Funcionario("Gustavo Parro", "123.123.123-00", "gustavo@gmail.com", "123", permissao1);
 		listaFuncionario.add(funcionario1);
-		Funcionario funcionario2 = new Funcionario("Juju Pantera", "321.321.321-99", "juju@gmail.com", "321",
-				permissao2);
+		Funcionario funcionario2 = new Funcionario("Juju Pantera", "321.321.321-99", "juju@gmail.com", "321", permissao1);
 		listaFuncionario.add(funcionario2);
-		Funcionario funcionario3 = new Funcionario("Beatriz ...", "666.666.666.11", "bia@gmail.com", "666", permissao2);
+		Funcionario funcionario3 = new Funcionario("Beatriz ...", "666.666.666.11", "bia@gmail.com", "666", permissao1);
 		listaFuncionario.add(funcionario3);
 
 		funcionarioRepository.saveAll(listaFuncionario);
 
 		List<Cliente> listaCliente = new ArrayList<Cliente>();
 
-		Cliente cliente0 = new Cliente("Prof. Danilo", "666.000.000.22", "daniloccuft@gmail.com", "(63) 98421-1107", 0);
+		Cliente cliente0 = new Cliente("Prof. Danilo", "666.000.000.22", "daniloccuft@gmail.com", "(63) 98421-1107", 0, permissao2);
 		listaCliente.add(cliente0);
-		Cliente cliente1 = new Cliente("Tales", "222.111.333-44", "taalesmelquiades@gmail.com", "(63) 98762-2132", 120);
+		Cliente cliente1 = new Cliente("Tales", "222.111.333-44", "taalesmelquiades@gmail.com", "(63) 98762-2132", 120, permissao2);
 		listaCliente.add(cliente1);
-		Cliente cliente2 = new Cliente("Yuri", "333.212.121-12", "fidelidademail@gmail.com", "(63) 9992-9821", 230);
+		Cliente cliente2 = new Cliente("Yuri", "333.212.121-12", "fidelidademail@gmail.com", "(63) 9992-9821", 230, permissao2);
 		listaCliente.add(cliente2);
-		Cliente cliente3 = new Cliente("Gustavo", "000.000.000.22", "parrogustavo@gmail.com", "(63) 98438-9200", 100);
+		Cliente cliente3 = new Cliente("Gustavo", "000.000.000.22", "parrogustavo@gmail.com", "(63) 98438-9200", 100, permissao2);
 		listaCliente.add(cliente3);
 
 		clienteRepository.saveAll(listaCliente);
