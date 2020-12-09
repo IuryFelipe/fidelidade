@@ -1,7 +1,5 @@
 package br.com.unitins.fidelidade.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,12 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import lombok.Data;
 
 @Entity
 @Table(name="TB_PERMISSAO")
 @Data
-public class Permissao implements Serializable {
+public class Permissao implements GrantedAuthority {
 
 	private static final long serialVersionUID = 3226675709104105792L;
 	@Id
@@ -27,6 +27,11 @@ public class Permissao implements Serializable {
 	
 	public Permissao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	@Override
+	public String getAuthority() {
+		return null;
 	}
 
 }

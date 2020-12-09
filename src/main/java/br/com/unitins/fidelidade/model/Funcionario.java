@@ -1,6 +1,8 @@
 package br.com.unitins.fidelidade.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,7 +46,10 @@ public class Funcionario extends Usuario implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return null;
+		List<Permissao> permissoes = new ArrayList<Permissao>();
+		permissoes.add(getPermissao());
+		
+		return (Collection<? extends GrantedAuthority>) permissoes;
 	}
 
 	@Override
