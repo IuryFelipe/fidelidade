@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
@@ -42,6 +44,10 @@ public abstract class Usuario implements Serializable {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataAlteracao;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_permissao")
+	private Permissao permissao;
 	
 	@NotNull
 	private boolean status;
