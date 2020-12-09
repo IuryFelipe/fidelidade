@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Movimentacao;
-import br.com.unitins.fidelidade.model.Produto;
 
 public interface MovimentacaoRepository extends JpaRepository<Movimentacao, Long> {
 

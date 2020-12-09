@@ -1,6 +1,7 @@
 package br.com.unitins.fidelidade.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +11,6 @@ import br.com.unitins.fidelidade.model.Cliente;
 import br.com.unitins.fidelidade.model.Funcionario;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.FuncionarioRepository;
-import br.com.unitins.fidelidade.security.SimpleEncryptor;
 
 @RestController
 @RequestMapping(value = "/fidelidade")
@@ -42,7 +42,7 @@ public class LoginResource {
 		
 		if(funcionario == null)
 			return "Email ou senha inválidos.";
-		if(!funcionario.getSenha().equals(SimpleEncryptor.sha256(senha)))
+		if(!funcionario.getSenha().equals(new BCryptPasswordEncoder().encode(senha)))
 			return "Email ou senha inválidos.";
 		
 		return "Acesso liberado.";
