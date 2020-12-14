@@ -35,10 +35,26 @@ public class LoginResource {
 		
 	}
 	
-	@GetMapping("/login/funcionario/{email}/{senha}")
-	public String autenticarFuncionario(@PathVariable(value = "email") String email, 
+	/*
+	 * @GetMapping("/login/funcionario/{email}/{senha}") public String
+	 * autenticarFuncionario(@PathVariable(value = "email") String email,
+	 * 
+	 * @PathVariable(value= "senha") String senha) { Funcionario funcionario =
+	 * funcionarioRepository.findByEmail(email);
+	 * 
+	 * if(funcionario == null) return "Email ou senha inválidos.";
+	 * if(!funcionario.getSenha().equals(new BCryptPasswordEncoder().encode(senha)))
+	 * return "Email ou senha inválidos.";
+	 * 
+	 * return "Acesso liberado.";
+	 * 
+	 * }
+	 */
+	
+	@GetMapping("/login/funcionario/{cpf}/{senha}")
+	public String autenticarFuncionario(@PathVariable(value = "cpf") String cpf, 
 			@PathVariable(value= "senha") String senha) {
-		Funcionario funcionario = funcionarioRepository.findByEmail(email);
+		Funcionario funcionario = funcionarioRepository.findByCpf(cpf);
 		
 		if(funcionario == null)
 			return "Email ou senha inválidos.";
