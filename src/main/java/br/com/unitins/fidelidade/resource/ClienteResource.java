@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.unitins.fidelidade.exception.NegocioException;
 import br.com.unitins.fidelidade.model.Cliente;
+import br.com.unitins.fidelidade.model.Funcionario;
 import br.com.unitins.fidelidade.model.Movimentacao;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
@@ -43,6 +44,12 @@ public class ClienteResource {
 	@GetMapping("/cliente/{idCliente}")
 	public Cliente findById(@PathVariable(value = "idCliente") long id) {
 		return clienteRepository.findById(id);
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/cliente/nome/{nome}")
+	public Cliente findByNome(@PathVariable(value = "nome") String nome ) {
+		return clienteRepository.findByNome(nome);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
