@@ -57,6 +57,12 @@ public class FuncionarioResource {
 		return funcionarioRepository.findById(id);
 	}
 	
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/funcionario/nome/{nome}")
+	public Funcionario findByNome(@PathVariable(value = "nome") String nome ) {
+		return funcionarioRepository.findByNome(nome);
+	}
+	
 	@PostMapping("/funcionario")
 	public ResponseEntity<Funcionario> createFuncionario(@RequestBody Funcionario funcionario) {
 		Funcionario funcionarioExistente = funcionarioRepository.findByCpf(funcionario.getCpf());
