@@ -84,7 +84,7 @@ public class Dbinit implements CommandLineRunner {
 
 		List<Cliente> listaCliente = new ArrayList<Cliente>();
 
-		Cliente cliente0 = new Cliente("Prof. Danilo", "666.000.000.22", "daniloccuft@gmail.com", "(63) 98421-1107", 0, permissao2);
+		Cliente cliente0 = new Cliente("Prof. Danilo", "666.000.000.22", "danilo@gmail.com", "123456789", 0, permissao2);
 		listaCliente.add(cliente0);
 		Cliente cliente1 = new Cliente("Tales", "222.111.333-44", "taalesmelquiades@gmail.com", "(63) 98762-2132", 120, permissao2);
 		listaCliente.add(cliente1);

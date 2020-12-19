@@ -11,6 +11,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -52,7 +53,7 @@ public class Cliente extends Usuario implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return this.telefone;
+		return new BCryptPasswordEncoder().encode(this.telefone);
 	}
 
 	@Override
