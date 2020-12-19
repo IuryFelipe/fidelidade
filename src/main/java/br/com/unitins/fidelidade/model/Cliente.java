@@ -87,5 +87,4 @@ public class Cliente extends Usuario implements UserDetails {
 		return true;
 	}
 
-
 }
