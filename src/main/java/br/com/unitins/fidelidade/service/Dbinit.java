@@ -73,11 +73,11 @@ public class Dbinit implements CommandLineRunner {
 
 		List<Funcionario> listaFuncionario = new ArrayList<Funcionario>();
 
-		Funcionario funcionario1 = new Funcionario("Francisco", "123.123.123-12", "gustavo@gmail.com", "123", permissao1);
+		Funcionario funcionario1 = new Funcionario("Gustavo", "123.123.123-12", "gustavo@gmail.com", "123", permissao1);
 		listaFuncionario.add(funcionario1);
-		Funcionario funcionario2 = new Funcionario("Juju Pantera", "321.321.321-99", "juju@gmail.com", "321", permissao1);
+		Funcionario funcionario2 = new Funcionario("Juju", "321.321.321-99", "juju@gmail.com", "123", permissao1);
 		listaFuncionario.add(funcionario2);
-		Funcionario funcionario3 = new Funcionario("Beatriz ...", "666.666.666.11", "bia@gmail.com", "666", permissao1);
+		Funcionario funcionario3 = new Funcionario("Beatriz", "666.666.666.11", "bia@gmail.com", "123", permissao1);
 		listaFuncionario.add(funcionario3);
 
 		funcionarioRepository.saveAll(listaFuncionario);

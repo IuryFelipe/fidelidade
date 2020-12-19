@@ -11,7 +11,6 @@ import javax.persistence.UniqueConstraint;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -35,12 +34,12 @@ public class Funcionario extends Usuario implements UserDetails {
 	@Builder
 	public Funcionario(String nome, String cpf, String email, String senha, Permissao permissao) {
 		super(nome, cpf, email);
-		this.senha = new BCryptPasswordEncoder().encode(senha);
+		this.senha = senha;
 		setPermissao(permissao);
 	}
 	
 	public void setSenha(String senha) {
-		this.senha = new BCryptPasswordEncoder().encode(senha);
+		this.senha = senha;
 	}
 
 	@Override
@@ -54,7 +53,6 @@ public class Funcionario extends Usuario implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return this.senha;
 	}
 

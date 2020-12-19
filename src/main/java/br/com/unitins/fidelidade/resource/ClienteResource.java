@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.unitins.fidelidade.exception.NegocioException;
 import br.com.unitins.fidelidade.model.Cliente;
-import br.com.unitins.fidelidade.model.Funcionario;
 import br.com.unitins.fidelidade.model.Movimentacao;
 import br.com.unitins.fidelidade.repository.ClienteRepository;
 import br.com.unitins.fidelidade.repository.MovimentacaoRepository;
